@@ -1,3 +1,4 @@
+using Systems;
 using Zenject;
 
 namespace Installers
@@ -6,7 +7,9 @@ namespace Installers
     {
         public override void InstallBindings()
         {
-            base.InstallBindings();
+            Container.BindInterfacesTo<InputSystem>().AsSingle();
+            
+            Container.BindExecutionOrder<InputSystem>(0);
         }
     }
 }
