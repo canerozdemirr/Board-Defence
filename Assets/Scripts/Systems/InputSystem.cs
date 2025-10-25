@@ -18,8 +18,8 @@ namespace Systems
             _gameInput = new GameInput();
 
             _gameInput.Enable();
-            _gameInput.Player.MouseClick.performed += OnMouseClickPerformed;
-            _gameInput.Player.MouseClick.canceled += OnMouseClickCancelled;
+            _gameInput.Player.Click.performed += OnMouseClickPerformed;
+            _gameInput.Player.Click.canceled += OnMouseClickCancelled;
         }
 
         private void OnMouseClickPerformed(InputAction.CallbackContext callbackContext)
@@ -37,8 +37,8 @@ namespace Systems
         public void Dispose()
         {
             _gameInput.Disable();
-            _gameInput.Player.MouseClick.performed -= OnMouseClickPerformed;
-            _gameInput.Player.MouseClick.canceled -= OnMouseClickCancelled;
+            _gameInput.Player.Click.performed -= OnMouseClickPerformed;
+            _gameInput.Player.Click.canceled -= OnMouseClickCancelled;
             _gameInput = null;
         }
     }
