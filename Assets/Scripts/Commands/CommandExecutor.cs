@@ -23,6 +23,7 @@ namespace Commands
         
         public void Enqueue(ICommand command)
         {
+            command.Initialize();
             _commandQueue.Enqueue(command);
         }
 
