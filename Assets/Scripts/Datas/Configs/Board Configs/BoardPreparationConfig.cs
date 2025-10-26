@@ -2,7 +2,7 @@ using Datas.BoardDatas;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Datas.Configs
+namespace Datas.Configs.Board_Configs
 {
     [CreateAssetMenu(fileName = "New Board Preparation Config", menuName = "Configs/Board/Board Preparation Config")]
     public class BoardPreparationConfig : ScriptableObject

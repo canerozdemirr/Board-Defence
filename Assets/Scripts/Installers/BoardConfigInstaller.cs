@@ -1,5 +1,6 @@
 using Datas.BoardDatas;
 using Datas.Configs;
+using Datas.Configs.Board_Configs;
 using UnityEngine;
 using Zenject;
 

@@ -1,6 +1,7 @@
 using System;
 using Datas.BoardDatas;
 using Datas.Configs;
+using Datas.Configs.Board_Configs;
 using Events.Board;
 using UnityEngine;
 using Utilities;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Datas.Configs
+namespace Datas.Configs.Board_Configs
 {
     [CreateAssetMenu(fileName = "New Board Preparation List Config", menuName = "Configs/Board/Board Preparation List Config")]
     public class BoardPreparationListConfig : ScriptableObject
