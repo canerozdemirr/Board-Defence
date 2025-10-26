@@ -54,6 +54,9 @@ namespace Gameplay.Board
         private void OnDestroy()
         {
             EventBus.Unsubscribe<BoardDataReady>(OnBoardDataReady);
+            _cellPrefab = null;
+            _boardCellPool.ClearObjectReferences();
+            _boardCellPool = null;
         }
     }
 }
