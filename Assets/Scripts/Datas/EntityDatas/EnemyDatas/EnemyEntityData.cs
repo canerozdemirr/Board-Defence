@@ -29,7 +29,8 @@ namespace Datas.EntityDatas.EnemyDatas
             {
                 _enemyName = _enemyName,
                 _health = _health,
-                _blockPassPerSecond = _blockPassPerSecond
+                _blockPassPerSecond = _blockPassPerSecond,
+                _enemyClass = _enemyClass
             };
         }
     }

@@ -15,33 +15,46 @@ namespace Gameplay.Spawners
     {
         private Dictionary<EnemyClass, AddressableGameObjectPool<EnemyEntity>> _enemyEntityPoolMap;
         private EnemyEntityLibrary _enemyEntityLibrary;
-        
+
         public void SetEnemyEntityLibrary(EnemyEntityLibrary enemyEntityLibrary)
         {
             _enemyEntityLibrary = enemyEntityLibrary;
         }
-        
+
         public void Initialize()
         {
             _enemyEntityPoolMap = new Dictionary<EnemyClass, AddressableGameObjectPool<EnemyEntity>>();
         }
-        
+
         public async UniTask<EnemyEntity> ProvideEnemyEntity(EnemyClass enemyClass)
         {
-            if (_enemyEntityPoolMap.ContainsKey(enemyClass)) 
-                return _enemyEntityPoolMap[enemyClass].Spawn();
+            if (_enemyEntityPoolMap.ContainsKey(enemyClass))
+            {
+                EnemyEntity pooledEnemy = _enemyEntityPoolMap[enemyClass].Spawn();
+                foreach (EnemyEntityConfig entityConfig in _enemyEntityLibrary.EnemyEntityConfigList)
+                {
+                    if (entityConfig.EnemyEntityData.EnemyClass != enemyClass)
+                        continue;
+                    pooledEnemy.AssignEnemyEntityData(entityConfig.EnemyEntityData);
+                    break;
+                }
+
+                return pooledEnemy;
+            }
 
             AddressableGameObjectPool<EnemyEntity> enemyPool = null;
             foreach (EnemyEntityConfig enemyEntityConfig in _enemyEntityLibrary.EnemyEntityConfigList)
             {
-                if (enemyEntityConfig.EnemyEntityData.EnemyClass != enemyClass) 
+                if (enemyEntityConfig.EnemyEntityData.EnemyClass != enemyClass)
                     continue;
-                
-                enemyPool = await AddressableGameObjectPool<EnemyEntity>.CreateAsync(enemyEntityConfig.EntityVisualData.AssetReference, transform);
+
+                enemyPool = await AddressableGameObjectPool<EnemyEntity>.CreateAsync(
+                    enemyEntityConfig.EntityVisualData.AssetReference, transform);
                 break;
             }
+
             _enemyEntityPoolMap.Add(enemyClass, enemyPool);
-            
+
             return _enemyEntityPoolMap[enemyClass].Spawn();
         }
     }

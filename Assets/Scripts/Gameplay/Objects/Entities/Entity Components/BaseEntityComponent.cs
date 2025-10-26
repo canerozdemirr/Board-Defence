@@ -6,8 +6,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
 {
     public abstract class BaseEntityComponent : MonoBehaviour, IEntityComponent
     {
-        protected IEntity _owner;
-        
+        private IEntity _owner;
         public IEntity Owner => _owner;
         public bool IsEnabled => gameObject.activeInHierarchy;
 
@@ -24,16 +23,6 @@ namespace Gameplay.Objects.Entities.Entity_Components
         public virtual void Disable()
         {
             enabled = false;
-        }
-
-        private void OnEnable()
-        {
-            Enable();
-        }
-
-        private void OnDisable()
-        {
-            Disable();
         }
     }
 }
