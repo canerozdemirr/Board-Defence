@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b7050a91c7412bae7c2b8ebbf71600, type: 3}
+  m_Name: Defence Item Library Config
+  m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Item_Configs.DefenceItemLibraryConfig
+  _defenceItemConfigList:
+  - {fileID: 11400000, guid: 834178f78bd21ef4488e6f31324282d0, type: 2}
+  - {fileID: 11400000, guid: 7ac33e77bb0102441b62a536b3bf9ca9, type: 2}
+  - {fileID: 11400000, guid: 43dbd65ed48cd2741b4969a96a5ddfb5, type: 2}
