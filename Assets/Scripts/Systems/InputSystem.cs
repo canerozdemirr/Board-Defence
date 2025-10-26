@@ -1,7 +1,9 @@
 using System;
+using Events;
 using Systems.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utilities;
 using Zenject;
 
 namespace Systems
@@ -41,6 +43,8 @@ namespace Systems
             
             float t = -ray.origin.y / ray.direction.y;
             _screenPosition = ray.origin + ray.direction * t;
+            
+            EventBus.Publish(new MouseClicked(_screenPosition));
             
             Debug.Log("Player clicked at world position: " + _screenPosition);
         }
