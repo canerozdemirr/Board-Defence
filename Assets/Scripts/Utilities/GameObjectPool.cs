@@ -1,6 +1,5 @@
 using System;
 using Gameplay.Interfaces;
-using Gameplay.Objects;
 using UnityEngine;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
@@ -9,97 +8,80 @@ namespace Utilities
 {
     public class GameObjectPool<T> where T : MonoBehaviour, IPoolable
     {
-        private readonly GameObject _prefab;
-        private readonly IObjectPool<T> _pool;
-        private readonly Transform _poolParent;
-        private readonly bool _dontDestroyOnLoad;
+        protected readonly IObjectPool<T> _pool;
+        protected readonly Transform _poolParent;
+        protected readonly bool _dontDestroyOnLoad;
+        
+        protected GameObject _prefab;
 
-        private GameObjectPool(GameObject prefab, Transform poolParent = null, int defaultSize = 1, int maxSize = 100,
-            bool dontDestroyOnLoad = false)
+        protected GameObjectPool(GameObject prefab, Transform poolParent = null, int defaultSize = 1, int maxSize = 100, bool dontDestroyOnLoad = false)
         {
             _prefab = prefab;
             _poolParent = poolParent;
             _dontDestroyOnLoad = dontDestroyOnLoad;
-
-            ValidatePrefab();
-
-            _pool = new ObjectPool<T>(CreatePoolObject, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true,
-                defaultSize, maxSize);
+            _pool = new ObjectPool<T>(CreatePoolObject, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, defaultSize, maxSize);
         }
 
         #region Pool Events
 
-        private void OnTakeFromPool(T takenObject)
+        protected virtual void OnTakeFromPool(T takenObject)
         {
             takenObject.OnCalledFromPool();
             takenObject.gameObject.SetActive(true);
         }
 
-        private void OnReturnedToPool(T returnedObject)
+        protected virtual void OnReturnedToPool(T returnedObject)
         {
             returnedObject.OnReturnToPool();
             returnedObject.gameObject.SetActive(false);
             returnedObject.transform.parent = _poolParent;
         }
 
-        private void OnDestroyPoolObject(T destroyedObject)
+        protected virtual void OnDestroyPoolObject(T destroyedObject)
         {
             Object.Destroy(destroyedObject.gameObject);
         }
 
         #endregion
 
-        public T Spawn()
+        public virtual T Spawn()
         {
             return _pool.Get();
         }
 
-        public static GameObjectPool<T> Create(GameObject prefab, Transform parent, int defaultSize = 10,
-            int maxSize = 100, bool dontDestroyOnLoad = false)
+        public static GameObjectPool<T> Create(GameObject prefab, Transform parent, int defaultSize = 10, int maxSize = 100, bool dontDestroyOnLoad = false)
         {
             return new GameObjectPool<T>(prefab, parent, defaultSize, maxSize, dontDestroyOnLoad);
         }
 
-        public void DeSpawn(T targetObject)
+        public virtual void DeSpawn(T targetObject)
         {
             _pool.Release(targetObject);
         }
 
-        public void ClearObjectReferences()
+        public virtual void ClearObjectReferences()
         {
             _pool.Clear();
         }
 
-        private T CreatePoolObject()
+        protected virtual T CreatePoolObject()
         {
             GameObject pooledObject = Object.Instantiate(_prefab, _poolParent);
-            T component = pooledObject.GetComponent<T>();
-            if (component == null)
-            {
-                Debug.LogWarning(
-                    $"Prefab {_prefab.name} does not contain a {typeof(T)} component. Adding it dynamically.");
-                component = pooledObject.AddComponent<T>();
-            }
+            pooledObject.name = $"{_prefab.name} (Pooled)";
             
-            if (_dontDestroyOnLoad && _poolParent != null)
+            T component = pooledObject.GetComponent<T>();
+            
+            switch (_dontDestroyOnLoad)
             {
-                Object.DontDestroyOnLoad(_poolParent.gameObject);
-            }
-
-            if (_dontDestroyOnLoad)
-            {
-                Object.DontDestroyOnLoad(pooledObject);
+                case true when _poolParent != null:
+                    Object.DontDestroyOnLoad(_poolParent.gameObject);
+                    break;
+                case true:
+                    Object.DontDestroyOnLoad(pooledObject);
+                    break;
             }
 
             return component;
-        }
-
-        private void ValidatePrefab()
-        {
-            if (_prefab.GetComponent<T>() == null)
-            {
-                throw new ArgumentException($"Prefab {_prefab.name} does not contain a {typeof(T)} component.");
-            }
         }
     }
 }
