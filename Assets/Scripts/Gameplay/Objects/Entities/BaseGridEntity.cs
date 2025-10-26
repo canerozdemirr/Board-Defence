@@ -14,18 +14,18 @@ namespace Gameplay.Objects.Entities
         
         public abstract void Initialize();
 
-        public abstract void Activate();
+        public abstract void OnActivate();
 
-        public abstract void Deactivate();
+        public abstract void OnDeactivate();
 
-        public virtual void OnCalledFromPool()
+        public void OnCalledFromPool()
         {
-            
+            OnActivate();
         }
 
-        public virtual void OnReturnToPool()
+        public void OnReturnToPool()
         {
-            
+            OnDeactivate();
         }
     }
 }
