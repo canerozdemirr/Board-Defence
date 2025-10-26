@@ -24,6 +24,7 @@ namespace Gameplay.Board
             int columnNumber = boardDataReadyEvent.BoardSizeData.ColumnNumber;
             float cellSize = boardDataReadyEvent.BoardSizeData.CellSize;
             Vector3 boardCenterPosition = boardDataReadyEvent.BoardSizeData.BoardCenterPosition;
+            float yPosition = boardDataReadyEvent.BoardSizeData.CellYPosition;
 
             float totalWidth = (rowNumber - 1) * cellSize;
             float totalDepth = (columnNumber - 1) * cellSize;
@@ -38,7 +39,7 @@ namespace Gameplay.Board
                 {
                     BoardCell boardCell = _boardCellPool.Spawn();
 
-                    boardCell.transform.position = boardCenterPosition + centerOffset + new Vector3(i * cellSize, 0f, j * cellSize);
+                    boardCell.transform.position = boardCenterPosition + centerOffset + new Vector3(i * cellSize, yPosition, j * cellSize);
                     boardCell.gameObject.name = $"Board Cell: ({i}, {j})";
                     boardCell.Initialize(boardDataReadyEvent.BoardCellDataList[i, j]);
                 }

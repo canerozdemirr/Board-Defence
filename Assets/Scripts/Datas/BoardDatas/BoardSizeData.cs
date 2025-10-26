@@ -10,10 +10,12 @@ namespace Datas.BoardDatas
         [SerializeField] private int _columnNumber;
         [SerializeField] private float _cellSize;
         [SerializeField] private Vector3 _boardCenterPosition;
+        [SerializeField] private float _cellYPosition;
         
         public int RowNumber => _rowNumber;
         public int ColumnNumber => _columnNumber;
         public float CellSize => _cellSize;
         public Vector3 BoardCenterPosition => _boardCenterPosition;
+        public float CellYPosition => _cellYPosition;
     }
 }

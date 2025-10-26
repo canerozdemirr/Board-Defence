@@ -1,4 +1,4 @@
-namespace Gameplay.Objects
+namespace Gameplay.Interfaces
 {
     public interface IPoolable
     {

@@ -1,4 +1,5 @@
 using Datas.BoardDatas;
+using Gameplay.Interfaces;
 using UnityEngine;
 
 namespace Gameplay.Objects
