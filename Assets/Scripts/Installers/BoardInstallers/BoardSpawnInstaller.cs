@@ -1,4 +1,5 @@
 using Gameplay.Board;
+using Gameplay.Objects;
 using UnityEngine;
 using Zenject;
 
@@ -7,7 +8,7 @@ namespace Installers.BoardInstallers
     public class BoardSpawnInstaller : MonoInstaller
     {
         [SerializeField] private BoardSpawner _boardSpawner;
-        [SerializeField] private GameObject _cellPrefab;
+        [SerializeField] private BoardCell _cellPrefab;
 
         public override void InstallBindings()
         {

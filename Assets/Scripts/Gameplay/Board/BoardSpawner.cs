@@ -9,7 +9,7 @@ namespace Gameplay.Board
 {
     public class BoardSpawner : MonoBehaviour, IInitializable
     {
-        private GameObject _cellPrefab;
+        private BoardCell _cellPrefab;
         
         private GameObjectPool<BoardCell> _boardCellPool;
         
@@ -25,7 +25,7 @@ namespace Gameplay.Board
             float cellSize = boardDataReadyEvent.BoardSizeData.CellSize;
             Vector3 boardOriginPosition = boardDataReadyEvent.BoardSizeData.BoardOriginPosition;
             
-            _boardCellPool = GameObjectPool<BoardCell>.Create(_cellPrefab, transform, rowNumber * columnNumber);
+            _boardCellPool = GameObjectPool<BoardCell>.Create(_cellPrefab.gameObject, transform, rowNumber * columnNumber);
             for (int i = 0; i < rowNumber; i++)
             {
                 for (int j = 0; j < columnNumber; j++)
@@ -36,12 +36,13 @@ namespace Gameplay.Board
                         boardOriginPosition.y,
                         boardOriginPosition.z + i * cellSize
                     );
+                    boardCell.gameObject.name = "Board Cell: (" + i + ", " + j + ")";
                     boardCell.Initialize(boardDataReadyEvent.BoardCellDataList[i, j]);
                 }
             }
         }
 
-        public void InjectDependencies(GameObject cellPrefab)
+        public void InjectDependencies(BoardCell cellPrefab)
         {
             _cellPrefab = cellPrefab;
         }
