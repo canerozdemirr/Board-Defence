@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Gameplay.Objects.Entities.Entity_Components
 {
-    public class BoardMovementComponent : BaseEntityComponent
+    public class BoardMovementComponent : BaseEntityComponent, IBoardMovementEntityComponent
     {
         private float _blockPassPerSecond;
         private float _movementSpeed;
@@ -22,8 +22,8 @@ namespace Gameplay.Objects.Entities.Entity_Components
         private BoardSizeData _boardSizeData;
         private EnemyEntityData _enemyEntityData;
 
-        private Vector2Int _currentGridPosition;
-        private Vector2Int _targetGridPosition;
+        private Vector2Int _currentBlockPosition;
+        private Vector2Int _targetBlockPosition;
         private Vector3 _targetWorldPosition;
 
         private bool _isMoving;
@@ -50,8 +50,8 @@ namespace Gameplay.Objects.Entities.Entity_Components
             }
             
             _boardSizeData = _boardSystem.BoardSizeData;
-            _currentGridPosition = WorldToGridPosition(transform.position);
-            _targetGridPosition = _currentGridPosition;
+            _currentBlockPosition = WorldToGridPosition(transform.position);
+            _targetBlockPosition = _currentBlockPosition;
         }
 
         private void StartSmoothMovement()
@@ -64,7 +64,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             _moveCancellationToken?.Dispose();
             _moveCancellationToken = new CancellationTokenSource();
 
-            int cellDistance = GetCellDistance(_currentGridPosition, _targetGridPosition);
+            int cellDistance = GetCellDistance(_currentBlockPosition, _targetBlockPosition);
             float moveDuration = cellDistance * (1f / _movementSpeed);
 
             StartMovementRoutine(moveDuration, _moveCancellationToken.Token).Forget();
@@ -90,7 +90,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             if (!cancellationToken.IsCancellationRequested)
             {
                 transform.position = _targetWorldPosition;
-                _currentGridPosition = _targetGridPosition;
+                _currentBlockPosition = _targetBlockPosition;
                 _isMoving = false;
                 _moveProgress = 1f;
             }
@@ -124,15 +124,15 @@ namespace Gameplay.Objects.Entities.Entity_Components
         {
             if (_isMoving)
             {
-                Stop();
+                StopMovement();
             }
             
-            _targetGridPosition = targetPosition;
+            _targetBlockPosition = targetPosition;
             _targetWorldPosition = GridToWorldPosition(targetPosition);
             StartSmoothMovement();
         }
 
-        private void Stop()
+        public void StopMovement()
         {
             if (!_isMoving) return;
             
@@ -143,8 +143,8 @@ namespace Gameplay.Objects.Entities.Entity_Components
             _isMoving = false;
             _moveProgress = 0f;
             
-            _currentGridPosition = WorldToGridPosition(transform.position);
-            _targetGridPosition = _currentGridPosition;
+            _currentBlockPosition = WorldToGridPosition(transform.position);
+            _targetBlockPosition = _currentBlockPosition;
         }
 
         private void SetSpeed(float blocksPerSecond)
@@ -160,13 +160,13 @@ namespace Gameplay.Objects.Entities.Entity_Components
 
         public float GetTimeToReach(Vector2Int targetPosition)
         {
-            int distance = GetCellDistance(_currentGridPosition, targetPosition);
+            int distance = GetCellDistance(_currentBlockPosition, targetPosition);
             return distance * (1f / _movementSpeed);
         }
 
         public int GetDistanceTo(Vector2Int targetPosition)
         {
-            return GetCellDistance(_currentGridPosition, targetPosition);
+            return GetCellDistance(_currentBlockPosition, targetPosition);
         }
 
         private int GetCellDistance(Vector2Int from, Vector2Int to)
@@ -182,7 +182,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
 
         public void MoveInDirection(Vector2Int direction)
         {
-            Vector2Int targetPos = _currentGridPosition + direction;
+            Vector2Int targetPos = _currentBlockPosition + direction;
             MoveToGridPosition(targetPos);
         }
 

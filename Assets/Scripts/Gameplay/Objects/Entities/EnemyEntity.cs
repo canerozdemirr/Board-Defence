@@ -51,7 +51,7 @@ namespace Gameplay.Objects.Entities
             _enemyEntityData = enemyEntityData;
         }
         
-        public T RequestComponent<T>() where T : class, IEntityComponent
+        public T RequestComponent<T>() where T : class, IEnemyEntityComponent
         {
             foreach (BaseEntityComponent component in _entityComponentList)
             {

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3692977740374900837}
   - component: {fileID: 1969327295008014385}
   - component: {fileID: 6624834185622994747}
+  - component: {fileID: 3180838364288146362}
+  - component: {fileID: 5153564404980033578}
   m_Layer: 0
   m_Name: Enemy Prefab
   m_TagString: Enemy
@@ -67,6 +69,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba79b4ab88843b79aadf7ac6e63dfc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Objects.Entities.EnemyEntity
+  _entityComponentList:
+  - {fileID: 3180838364288146362}
+  - {fileID: 5153564404980033578}
+--- !u!114 &3180838364288146362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2948189660999148316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d296c52836e542b9a19c97224125f08a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Objects.Entities.Entity_Components.HealthEntityComponent
+--- !u!114 &5153564404980033578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2948189660999148316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fbf095118994fcfbaa3987606dc62cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Objects.Entities.Entity_Components.BoardMovementComponent
 --- !u!1 &4847417627040083295
 GameObject:
   m_ObjectHideFlags: 0
