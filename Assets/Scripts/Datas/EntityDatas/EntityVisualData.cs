@@ -2,10 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace Datas.ItemDatas
+namespace Datas.EntityDatas
 {
     [Serializable]
-    public struct TowerEntityVisualData
+    public struct EntityVisualData
     {
         [SerializeField] private AssetReference _assetReference;
         

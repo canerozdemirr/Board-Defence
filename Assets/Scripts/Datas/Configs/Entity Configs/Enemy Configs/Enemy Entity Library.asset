@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d55ff632a3b4f96a812d167658c59fd, type: 3}
+  m_Name: Enemy Entity Library
+  m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Entity_Configs.Enemy_Configs.EnemyEntityLibrary
+  _enemyEntityConfigList:
+  - {fileID: 11400000, guid: 6de199d117f0a4f4ab971b18a53a4f71, type: 2}
+  - {fileID: 11400000, guid: bef13793cef3265448ce3e9926a8898f, type: 2}
+  - {fileID: 11400000, guid: ab121ed9bcfc2ec4dbd7230f76ab5bb7, type: 2}
