@@ -5,17 +5,11 @@ namespace Gameplay.Objects.Entities
 {
     public abstract class BaseGridEntity : MonoBehaviour, IGridEntity, IPoolable
     {
-        public Vector2Int GridPosition { get; protected set; }
-        public Vector3 WorldPosition { get; protected set; }
+        public Vector2Int BoardIndex { get; private set; }
         
-        public void SetGridPosition(Vector2Int gridPosition)
+        public void SetBoardIndex(Vector2Int gridPosition)
         {
-            GridPosition = gridPosition;
-        }
-
-        public void SetWorldPosition(Vector3 worldPosition)
-        {
-            WorldPosition = worldPosition;
+            BoardIndex = gridPosition;
         }
         
         public abstract void Initialize();

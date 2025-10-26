@@ -2,6 +2,8 @@ using System;
 using Datas.BoardDatas;
 using Events.Board;
 using Gameplay.Objects;
+using Gameplay.Objects.Entities;
+using Gameplay.Objects.Entities.Board_Entities;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -31,9 +33,13 @@ namespace Gameplay.Board
                 for (int col = 0; col < _boardSizeData.ColumnNumber; col++)
                 {
                     BoardCellEntity boardCellEntity = _boardCellPool.Spawn();
-                    boardCellEntity.transform.position = CalculateCenteredCellPosition(row, col);
-                    boardCellEntity.gameObject.name = $"Board Cell: ({row}, {col})";
-                    boardCellEntity.Initialize(boardDataReadyEvent.BoardCellDataList[row, col]);
+                    Vector2Int boardIndex = new(row, col);
+                    Vector3 worldPositionInBoard = CalculateCenteredCellPosition(row, col);
+                    
+                    boardCellEntity.gameObject.name = $"Board Cell: ({boardIndex})";
+                    boardCellEntity.transform.position = worldPositionInBoard;
+                    boardCellEntity.SetBoardIndex(boardIndex);
+                    boardCellEntity.Initialize();
                 }
             }
         }

@@ -1,5 +1,7 @@
 using Gameplay.Board;
 using Gameplay.Objects;
+using Gameplay.Objects.Entities;
+using Gameplay.Objects.Entities.Board_Entities;
 using UnityEngine;
 using Zenject;
 
