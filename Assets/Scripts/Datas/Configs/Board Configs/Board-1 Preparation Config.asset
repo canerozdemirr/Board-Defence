@@ -18,3 +18,5 @@ MonoBehaviour:
     _cellSize: 1
     _boardCenterPosition: {x: 0, y: 0, z: 0}
     _cellYPosition: -0.35
+    _playerRowLimit: 0
+    _playerColumnLimit: 4

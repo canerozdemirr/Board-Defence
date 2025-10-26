@@ -33,7 +33,7 @@ namespace Gameplay.Board
                 {
                     IGridEntity boardCellEntity = _boardCellPool.Spawn();
                     Vector2Int boardIndex = new(row, col);
-                    Vector3 worldPositionInBoard = CalculateCenteredCellPosition(row, col);
+                    Vector3 worldPositionInBoard = _boardSizeData.CalculateCenteredCellPosition(row, col);
                     
                     boardCellEntity.SetWorldPosition(worldPositionInBoard);
                     boardCellEntity.SetBoardIndex(boardIndex);
@@ -41,17 +41,6 @@ namespace Gameplay.Board
                     boardCellEntity.OnActivate();
                 }
             }
-        }
-
-        private Vector3 CalculateCenteredCellPosition(int row, int col)
-        {
-            float halfWidth = (_boardSizeData.RowNumber - 1) * _boardSizeData.CellSize / 2f;
-            float halfDepth = (_boardSizeData.ColumnNumber - 1) * _boardSizeData.CellSize / 2f;
-
-            float x = row * _boardSizeData.CellSize - halfWidth;
-            float z = col * _boardSizeData.CellSize - halfDepth;
-
-            return _boardSizeData.BoardCenterPosition + new Vector3(x, _boardSizeData.CellYPosition, z);
         }
 
         public void InjectDependencies(BoardCellEntity cellEntityPrefab)

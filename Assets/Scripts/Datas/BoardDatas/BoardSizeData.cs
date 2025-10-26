@@ -22,5 +22,16 @@ namespace Datas.BoardDatas
         public float CellYPosition => _cellYPosition;
         public int PlayerRowLimit => _playerRowLimit;
         public int PlayerColumnLimit => _playerColumnLimit;
+        
+        public Vector3 CalculateCenteredCellPosition(int row, int col)
+        {
+            float halfWidth = (_rowNumber - 1) * _cellSize / 2f;
+            float halfDepth = (_columnNumber - 1) * _cellSize / 2f;
+
+            float x = row * _cellSize - halfWidth;
+            float z = col * _cellSize - halfDepth;
+
+            return _boardCenterPosition + new Vector3(x, _cellYPosition, z);
+        }
     }
 }

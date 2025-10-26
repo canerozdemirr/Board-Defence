@@ -71,19 +71,25 @@ namespace Systems
                 _currentWaveData = _waveDataList[randomWaveIndex];
                 EnemyClass enemyClass = _currentWaveData.EnemySpawnData.EnemyData;
                 
-                IGridEntity spawnedEnemy = await _enemySpawner.ProvideEnemyEntity(enemyClass);
+                BaseGridEntity spawnedEnemy = await _enemySpawner.ProvideEnemyEntity(enemyClass);
                 Vector2Int spawnBoardIndex = new(UnityEngine.Random.Range(0, _boardSystem.BoardSizeData.RowNumber), UnityEngine.Random.Range(_enemyMinSpawnColumnNumber, _boardSystem.BoardSizeData.ColumnNumber));
                 spawnedEnemy.SetBoardIndex(spawnBoardIndex);
+                
+                Vector3 spawnWorldPosition = _boardSystem.BoardSizeData.CalculateCenteredCellPosition(spawnBoardIndex.x, spawnBoardIndex.y);
+                Vector3 finalPosition = new(spawnWorldPosition.x, spawnWorldPosition.y + spawnedEnemy.gameObject.transform.localScale.y, spawnWorldPosition.z);
+                spawnedEnemy.SetWorldPosition(finalPosition);
+                
                 spawnedEnemy.Initialize();
                 spawnedEnemy.OnActivate();
-                
+
                 if (!_enemySpawnedCountMap.TryAdd(enemyClass, 1))
                 {
                     _enemySpawnedCountMap[enemyClass]++;
-                    if(_enemySpawnedCountMap[enemyClass] >= _currentWaveData.EnemySpawnData.Count)
-                    {
-                        _waveDataList.RemoveAt(randomWaveIndex);
-                    }
+                }
+
+                if(_enemySpawnedCountMap[enemyClass] >= _currentWaveData.EnemySpawnData.Count)
+                {
+                    _waveDataList.RemoveAt(randomWaveIndex);
                 }
                 
                 _currentEnemyCount--;
