@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Datas.ItemDatas
 {
     [Serializable]
-    public struct DefenceItemData
+    public struct TowerEntityData
     {
         [SerializeField] 
         private string _itemName;
@@ -30,9 +30,9 @@ namespace Datas.ItemDatas
         public float AttackInterval => _attackInterval;
         public EnemyDetectionDirection DetectionDirections => _detectionDirections;
         
-        public DefenceItemData Clone()
+        public TowerEntityData Clone()
         {
-            return new DefenceItemData
+            return new TowerEntityData
             {
                 _itemName = _itemName,
                 _damage = _damage,

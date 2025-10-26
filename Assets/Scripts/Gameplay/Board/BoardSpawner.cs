@@ -10,9 +10,9 @@ namespace Gameplay.Board
 {
     public class BoardSpawner : MonoBehaviour, IInitializable
     {
-        private BoardCell _cellPrefab;
+        private BoardCellEntity _cellEntityPrefab;
 
-        private GameObjectPool<BoardCell> _boardCellPool;
+        private GameObjectPool<BoardCellEntity> _boardCellPool;
 
         private BoardSizeData _boardSizeData;
 
@@ -24,16 +24,16 @@ namespace Gameplay.Board
         private void OnBoardDataReady(BoardDataReady boardDataReadyEvent)
         {
             _boardSizeData = boardDataReadyEvent.BoardSizeData;
-            _boardCellPool = GameObjectPool<BoardCell>.Create(_cellPrefab.gameObject, transform, _boardSizeData.RowNumber * _boardSizeData.ColumnNumber);
+            _boardCellPool = GameObjectPool<BoardCellEntity>.Create(_cellEntityPrefab.gameObject, transform, _boardSizeData.RowNumber * _boardSizeData.ColumnNumber);
             
             for (int row = 0; row < _boardSizeData.RowNumber; row++)
             {
                 for (int col = 0; col < _boardSizeData.ColumnNumber; col++)
                 {
-                    BoardCell boardCell = _boardCellPool.Spawn();
-                    boardCell.transform.position = CalculateCenteredCellPosition(row, col);
-                    boardCell.gameObject.name = $"Board Cell: ({row}, {col})";
-                    boardCell.Initialize(boardDataReadyEvent.BoardCellDataList[row, col]);
+                    BoardCellEntity boardCellEntity = _boardCellPool.Spawn();
+                    boardCellEntity.transform.position = CalculateCenteredCellPosition(row, col);
+                    boardCellEntity.gameObject.name = $"Board Cell: ({row}, {col})";
+                    boardCellEntity.Initialize(boardDataReadyEvent.BoardCellDataList[row, col]);
                 }
             }
         }
@@ -49,15 +49,15 @@ namespace Gameplay.Board
             return _boardSizeData.BoardCenterPosition + new Vector3(x, _boardSizeData.CellYPosition, z);
         }
 
-        public void InjectDependencies(BoardCell cellPrefab)
+        public void InjectDependencies(BoardCellEntity cellEntityPrefab)
         {
-            _cellPrefab = cellPrefab;
+            _cellEntityPrefab = cellEntityPrefab;
         }
 
         private void OnDestroy()
         {
             EventBus.Unsubscribe<BoardDataReady>(OnBoardDataReady);
-            _cellPrefab = null;
+            _cellEntityPrefab = null;
             _boardCellPool.ClearObjectReferences();
             _boardCellPool = null;
         }

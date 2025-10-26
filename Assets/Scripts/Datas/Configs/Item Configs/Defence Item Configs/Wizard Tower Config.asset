@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a485fea5c99440ea8f2df2d0248db1c4, type: 3}
   m_Name: Wizard Tower Config
   m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Item_Configs.DefenceItemConfig
-  _defenceItemData:
+  _towerEntityData:
     _itemName: Wizard Tower
     _damage: 5
     _range: 2
     _attackInterval: 4
     _detectionDirections: 1
+  _towerEntityVisualData:
+    _assetReference:
+      m_AssetGUID: c36496bb84474f744950deca616bc666
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0

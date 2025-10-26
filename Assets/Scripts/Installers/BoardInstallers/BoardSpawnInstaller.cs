@@ -8,11 +8,11 @@ namespace Installers.BoardInstallers
     public class BoardSpawnInstaller : MonoInstaller
     {
         [SerializeField] private BoardSpawner _boardSpawner;
-        [SerializeField] private BoardCell _cellPrefab;
+        [SerializeField] private BoardCellEntity _cellEntityPrefab;
 
         public override void InstallBindings()
         {
-            _boardSpawner.InjectDependencies(_cellPrefab);
+            _boardSpawner.InjectDependencies(_cellEntityPrefab);
             
             Container.BindInterfacesAndSelfTo<BoardSpawner>().FromInstance(_boardSpawner).AsSingle();
         }

@@ -6,13 +6,9 @@ namespace Datas.BoardDatas
     [Serializable]
     public struct BoardCellData
     {
-        [SerializeField] private Vector2Int _boardIndex;
-        [SerializeField] private CellType _cellType;
-        [SerializeField] private CellState _cellState;
-        
-        public Vector2Int BoardIndex => _boardIndex;
-        public CellType CellType => _cellType;
-        public CellState CellState => _cellState;
+        private Vector2Int _boardIndex;
+        private CellType _cellType;
+        private CellState _cellState;
         
         public BoardCellData(Vector2Int boardIndex, CellType cellType, CellState cellState)
         {
@@ -20,6 +16,10 @@ namespace Datas.BoardDatas
             _cellType = cellType;
             _cellState = cellState;
         }
+        
+        public Vector2Int BoardIndex => _boardIndex;
+        public CellType CellType => _cellType;
+        public CellState CellState => _cellState;
     }
     
     public enum CellType

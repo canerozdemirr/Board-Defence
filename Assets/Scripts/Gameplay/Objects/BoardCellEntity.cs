@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gameplay.Objects
 {
-    public class BoardCell : MonoBehaviour, IPoolable
+    public class BoardCellEntity : MonoBehaviour, IPoolable
     {
         private BoardCellData _boardCellData;
         public void Initialize(BoardCellData boardCellData)
