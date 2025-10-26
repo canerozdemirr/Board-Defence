@@ -38,6 +38,6 @@ namespace Datas.EntityDatas.EnemyDatas
     {
         Light,
         Medium,
-        Tank
+        Heavy
     }
 }

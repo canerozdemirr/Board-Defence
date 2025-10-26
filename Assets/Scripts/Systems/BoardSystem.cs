@@ -12,20 +12,18 @@ namespace Systems
     [Serializable]
     public class BoardSystem : IInitializable, IDisposable
     {
-        private BoardPreparationListConfig _boardPreparationListConfig;
         private BoardPreparationConfig _boardPreparationConfig;
 
         private BoardSizeData _boardSizeData;
         private BoardCellData[,] _boardCellDataList;
 
-        public BoardSystem(BoardPreparationListConfig boardPreparationListConfig)
+        public BoardSystem(BoardPreparationConfig boardPreparationConfig)
         {
-            _boardPreparationListConfig = boardPreparationListConfig;
+            _boardPreparationConfig = boardPreparationConfig;
         }
 
         public void Initialize()
         {
-            _boardPreparationConfig = _boardPreparationListConfig.GetCurrentBoardPreparationConfig();
             PrepareBoardData();
         }
 
