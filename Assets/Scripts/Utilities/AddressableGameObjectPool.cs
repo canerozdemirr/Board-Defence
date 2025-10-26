@@ -19,9 +19,9 @@ namespace Utilities
             _isInitialized = false;
         }
         
-        public async UniTask<AddressableGameObjectPool<T>> CreateAsync(string addressKey, Transform parent = null, int defaultSize = 10, int maxSize = 100, bool dontDestroyOnLoad = false)
+        public static async UniTask<AddressableGameObjectPool<T>> CreateAsync(AssetReference assetReference, Transform parent = null, int defaultSize = 10, int maxSize = 100, bool dontDestroyOnLoad = false)
         {
-            AddressableGameObjectPool<T> pool = new(addressKey, parent, defaultSize, maxSize, dontDestroyOnLoad);
+            AddressableGameObjectPool<T> pool = new(assetReference.AssetGUID, parent, defaultSize, maxSize, dontDestroyOnLoad);
             
             await pool.InitializeAsync();
             return pool;

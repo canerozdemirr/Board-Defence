@@ -12,15 +12,26 @@ namespace Gameplay.Objects.Entities
             BoardIndex = gridPosition;
         }
         
+        public void SetWorldPosition(Vector3 worldPosition)
+        {
+            transform.position = worldPosition;
+        }
+        
         public abstract void Initialize();
 
-        public abstract void OnActivate();
+        public virtual void OnActivate()
+        {
+            gameObject.SetActive(true);
+        }
 
-        public abstract void OnDeactivate();
+        public virtual void OnDeactivate()
+        {
+            gameObject.SetActive(false);
+        }
 
         public void OnCalledFromPool()
         {
-            OnActivate();
+            
         }
 
         public void OnReturnToPool()

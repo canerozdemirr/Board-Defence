@@ -3,6 +3,7 @@ using Datas.BoardDatas;
 using Datas.Configs;
 using Datas.Configs.Board_Configs;
 using Events.Board;
+using Systems.Interfaces;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -10,12 +11,13 @@ using Zenject;
 namespace Systems
 {
     [Serializable]
-    public class BoardSystem : IInitializable, IDisposable
+    public class BoardSystem : IBoardSystem, IInitializable, IDisposable
     {
-        private BoardPreparationConfig _boardPreparationConfig;
+        private readonly BoardPreparationConfig _boardPreparationConfig;
 
         private BoardSizeData _boardSizeData;
         private BoardCellData[,] _boardCellDataList;
+        public BoardSizeData BoardSizeData => _boardSizeData;
 
         public BoardSystem(BoardPreparationConfig boardPreparationConfig)
         {
@@ -53,6 +55,8 @@ namespace Systems
 
         public void Dispose()
         {
+            _boardCellDataList = null;
+            _boardSizeData = default;
         }
     }
 }

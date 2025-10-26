@@ -6,5 +6,6 @@ namespace Gameplay.Interfaces
     {
         Vector2Int BoardIndex { get; }
         void SetBoardIndex(Vector2Int gridPosition);
+        void SetWorldPosition(Vector3 worldPosition);
     }
 }

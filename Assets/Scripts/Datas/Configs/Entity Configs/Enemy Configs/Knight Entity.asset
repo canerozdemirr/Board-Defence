@@ -16,9 +16,10 @@ MonoBehaviour:
     _enemyName: Knight
     _health: 10
     _blockPassPerSecond: 0.25
+    _enemyClass: 2
   _entityVisualData:
     _assetReference:
-      m_AssetGUID: 
+      m_AssetGUID: b9ba6db38618f9f4aa0c21d5c96d4539
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 

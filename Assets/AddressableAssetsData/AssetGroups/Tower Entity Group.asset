@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Defence Item Group
+  m_Name: Tower Entity Group
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: DefenceItemGroup
+  m_GroupName: Tower Entity Group
   m_GUID: 48d6e548931dee24b81e258d27fcd7a5
   m_SerializeEntries:
   - m_GUID: 3a9c62c111c52a341ba3dd6b901d1f5a
@@ -34,5 +34,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: f218770130d78384ba6ae69222eae62f, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: cac34c23385954548b4e7b9fa5cafd47, type: 2}
     - {fileID: 11400000, guid: 513def7135cc8b5489edd8f11fb17c20, type: 2}
+    - {fileID: 11400000, guid: cac34c23385954548b4e7b9fa5cafd47, type: 2}

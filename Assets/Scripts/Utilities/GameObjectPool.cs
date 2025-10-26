@@ -27,13 +27,11 @@ namespace Utilities
         protected virtual void OnTakeFromPool(T takenObject)
         {
             takenObject.OnCalledFromPool();
-            takenObject.gameObject.SetActive(true);
         }
 
         protected virtual void OnReturnedToPool(T returnedObject)
         {
             returnedObject.OnReturnToPool();
-            returnedObject.gameObject.SetActive(false);
             returnedObject.transform.parent = _poolParent;
         }
 

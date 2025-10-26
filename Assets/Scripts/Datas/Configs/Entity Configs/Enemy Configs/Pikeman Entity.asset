@@ -16,9 +16,10 @@ MonoBehaviour:
     _enemyName: Pikeman
     _health: 5
     _blockPassPerSecond: 0.5
+    _enemyClass: 1
   _entityVisualData:
     _assetReference:
-      m_AssetGUID: 
+      m_AssetGUID: f91c20eb75f6d6f4e89ddaf68efd5785
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 

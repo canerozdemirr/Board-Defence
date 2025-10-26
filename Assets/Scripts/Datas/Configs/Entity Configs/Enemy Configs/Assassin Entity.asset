@@ -16,9 +16,10 @@ MonoBehaviour:
     _enemyName: Assassin
     _health: 3
     _blockPassPerSecond: 1
+    _enemyClass: 0
   _entityVisualData:
     _assetReference:
-      m_AssetGUID: 
+      m_AssetGUID: 7eee2955968e1794a87033402a89bc0e
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 

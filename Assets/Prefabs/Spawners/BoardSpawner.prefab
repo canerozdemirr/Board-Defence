@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Installers.BoardInstallers.BoardInstaller
   _boardSpawner: {fileID: 567262722489980265}
-  _cellPrefab: {fileID: 5135352182872391907, guid: dc86151a8cdf9e84db0a897b23e5f797, type: 3}
+  _cellEntityPrefab: {fileID: 5135352182872391907, guid: dc86151a8cdf9e84db0a897b23e5f797, type: 3}
 --- !u!114 &8536729117618433045
 MonoBehaviour:
   m_ObjectHideFlags: 0
