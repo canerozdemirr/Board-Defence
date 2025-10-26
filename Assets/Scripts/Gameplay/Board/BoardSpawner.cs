@@ -1,4 +1,5 @@
 using System;
+using Datas.BoardDatas;
 using Events.Board;
 using Gameplay.Objects;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Gameplay.Board
 
         private GameObjectPool<BoardCell> _boardCellPool;
 
+        private BoardSizeData _boardSizeData;
+
         public void Initialize()
         {
             EventBus.Subscribe<BoardDataReady>(OnBoardDataReady);
@@ -20,30 +23,30 @@ namespace Gameplay.Board
 
         private void OnBoardDataReady(BoardDataReady boardDataReadyEvent)
         {
-            int rowNumber = boardDataReadyEvent.BoardSizeData.RowNumber;
-            int columnNumber = boardDataReadyEvent.BoardSizeData.ColumnNumber;
-            float cellSize = boardDataReadyEvent.BoardSizeData.CellSize;
-            Vector3 boardCenterPosition = boardDataReadyEvent.BoardSizeData.BoardCenterPosition;
-            float yPosition = boardDataReadyEvent.BoardSizeData.CellYPosition;
-
-            float totalWidth = (rowNumber - 1) * cellSize;
-            float totalDepth = (columnNumber - 1) * cellSize;
-
-            Vector3 centerOffset = new(-totalWidth / 2f, 0f, -totalDepth / 2f);
-
-            _boardCellPool = GameObjectPool<BoardCell>.Create(_cellPrefab.gameObject, transform, rowNumber * columnNumber);
-
-            for (int i = 0; i < rowNumber; i++)
+            _boardSizeData = boardDataReadyEvent.BoardSizeData;
+            _boardCellPool = GameObjectPool<BoardCell>.Create(_cellPrefab.gameObject, transform, _boardSizeData.RowNumber * _boardSizeData.ColumnNumber);
+            
+            for (int row = 0; row < _boardSizeData.RowNumber; row++)
             {
-                for (int j = 0; j < columnNumber; j++)
+                for (int col = 0; col < _boardSizeData.ColumnNumber; col++)
                 {
                     BoardCell boardCell = _boardCellPool.Spawn();
-
-                    boardCell.transform.position = boardCenterPosition + centerOffset + new Vector3(i * cellSize, yPosition, j * cellSize);
-                    boardCell.gameObject.name = $"Board Cell: ({i}, {j})";
-                    boardCell.Initialize(boardDataReadyEvent.BoardCellDataList[i, j]);
+                    boardCell.transform.position = CalculateCenteredCellPosition(row, col);
+                    boardCell.gameObject.name = $"Board Cell: ({row}, {col})";
+                    boardCell.Initialize(boardDataReadyEvent.BoardCellDataList[row, col]);
                 }
             }
+        }
+
+        private Vector3 CalculateCenteredCellPosition(int row, int col)
+        {
+            float halfWidth = (_boardSizeData.RowNumber - 1) * _boardSizeData.CellSize / 2f;
+            float halfDepth = (_boardSizeData.ColumnNumber - 1) * _boardSizeData.CellSize / 2f;
+
+            float x = row * _boardSizeData.CellSize - halfWidth;
+            float z = col * _boardSizeData.CellSize - halfDepth;
+
+            return _boardSizeData.BoardCenterPosition + new Vector3(x, _boardSizeData.CellYPosition, z);
         }
 
         public void InjectDependencies(BoardCell cellPrefab)
