@@ -15,9 +15,13 @@ namespace Datas.EntityDatas.EnemyDatas
         [SerializeField]
         private float _blockPassPerSecond;
 
+        [SerializeField] 
+        private EnemyClass _enemyClass;
+
         public string EnemyName => _enemyName;
         public float Health => _health;
         public float BlockPassPerSecond => _blockPassPerSecond;
+        public EnemyClass EnemyClass => _enemyClass;
         
         public EnemyEntityData Clone()
         {
@@ -28,5 +32,12 @@ namespace Datas.EntityDatas.EnemyDatas
                 _blockPassPerSecond = _blockPassPerSecond
             };
         }
+    }
+    
+    public enum EnemyClass
+    {
+        Light,
+        Medium,
+        Tank
     }
 }
