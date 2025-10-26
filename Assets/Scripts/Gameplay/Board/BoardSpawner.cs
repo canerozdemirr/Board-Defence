@@ -10,9 +10,9 @@ namespace Gameplay.Board
     public class BoardSpawner : MonoBehaviour, IInitializable
     {
         private BoardCell _cellPrefab;
-        
+
         private GameObjectPool<BoardCell> _boardCellPool;
-        
+
         public void Initialize()
         {
             EventBus.Subscribe<BoardDataReady>(OnBoardDataReady);
@@ -23,20 +23,23 @@ namespace Gameplay.Board
             int rowNumber = boardDataReadyEvent.BoardSizeData.RowNumber;
             int columnNumber = boardDataReadyEvent.BoardSizeData.ColumnNumber;
             float cellSize = boardDataReadyEvent.BoardSizeData.CellSize;
-            Vector3 boardOriginPosition = boardDataReadyEvent.BoardSizeData.BoardOriginPosition;
-            
+            Vector3 boardCenterPosition = boardDataReadyEvent.BoardSizeData.BoardCenterPosition;
+
+            float totalWidth = (rowNumber - 1) * cellSize;
+            float totalDepth = (columnNumber - 1) * cellSize;
+
+            Vector3 centerOffset = new(-totalWidth / 2f, 0f, -totalDepth / 2f);
+
             _boardCellPool = GameObjectPool<BoardCell>.Create(_cellPrefab.gameObject, transform, rowNumber * columnNumber);
+
             for (int i = 0; i < rowNumber; i++)
             {
                 for (int j = 0; j < columnNumber; j++)
                 {
                     BoardCell boardCell = _boardCellPool.Spawn();
-                    boardCell.transform.position = new Vector3(
-                        boardOriginPosition.x + j * cellSize,
-                        boardOriginPosition.y,
-                        boardOriginPosition.z + i * cellSize
-                    );
-                    boardCell.gameObject.name = "Board Cell: (" + i + ", " + j + ")";
+
+                    boardCell.transform.position = boardCenterPosition + centerOffset + new Vector3(i * cellSize, 0f, j * cellSize);
+                    boardCell.gameObject.name = $"Board Cell: ({i}, {j})";
                     boardCell.Initialize(boardDataReadyEvent.BoardCellDataList[i, j]);
                 }
             }
