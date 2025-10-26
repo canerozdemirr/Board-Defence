@@ -13,6 +13,13 @@ namespace Datas.BoardDatas
         public Vector2Int BoardIndex => _boardIndex;
         public CellType CellType => _cellType;
         public CellState CellState => _cellState;
+        
+        public BoardCellData(Vector2Int boardIndex, CellType cellType, CellState cellState)
+        {
+            _boardIndex = boardIndex;
+            _cellType = cellType;
+            _cellState = cellState;
+        }
     }
     
     public enum CellType
