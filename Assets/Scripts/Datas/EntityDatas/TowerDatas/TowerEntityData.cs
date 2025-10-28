@@ -22,13 +22,13 @@ namespace Datas.ItemDatas
         private float _attackInterval;
         
         [SerializeField]
-        private EnemyDetectionDirection _detectionDirections;
+        private Direction _detectionDirections;
         
         public string ItemName => _itemName;
         public float Damage => _damage;
         public float Range => _range;
         public float AttackInterval => _attackInterval;
-        public EnemyDetectionDirection DetectionDirections => _detectionDirections;
+        public Direction DetectionDirections => _detectionDirections;
         
         public TowerEntityData Clone()
         {
@@ -44,7 +44,7 @@ namespace Datas.ItemDatas
     }
 
     [Flags]
-    public enum EnemyDetectionDirection
+    public enum Direction
     {
         Forward = 1 << 0,
         Backward = 1 << 1,

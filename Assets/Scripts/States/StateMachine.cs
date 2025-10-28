@@ -1,98 +1,193 @@
 using System;
 using System.Collections.Generic;
 using States.Interfaces;
-using UnityEngine;
 
 namespace States
 {
     public class StateMachine<TContext> where TContext : class
     {
-        private readonly TContext _context;
-        private readonly List<IState<TContext>> _stateSequence;
-        
+        private readonly TContext _stateContext;
+        private readonly Dictionary<IState<TContext>, List<ITransition<TContext>>> _transitionMap;
+        private readonly List<ITransition<TContext>> _anyStateTransitionList;
+
         private IState<TContext> _currentState;
-        private int _currentIndex;
 
         private bool _isPaused;
         private bool _isActive;
-        
-        public StateMachine(TContext context)
+        public bool IsActive => _isActive;
+        public bool IsPaused => _isPaused;
+
+        public StateMachine(TContext stateContext)
         {
-            _context = context;
-            _stateSequence = new List<IState<TContext>>();
-            _currentIndex = -1;
+            _stateContext = stateContext;
+            _transitionMap = new Dictionary<IState<TContext>, List<ITransition<TContext>>>();
+            _anyStateTransitionList = new List<ITransition<TContext>>();
             _isPaused = false;
             _isActive = false;
         }
-        
-        public void Start()
+
+        public void AddTransition(IState<TContext> fromState, IState<TContext> toState, Predicate<TContext> transitionCondition, Action<TContext> onTransitionCallback = null)
         {
-            if (_stateSequence.Count == 0)
+            StateTransition<TContext> transition = new(toState, transitionCondition, onTransitionCallback);
+
+            if (!_transitionMap.ContainsKey(fromState))
             {
-                Debug.LogWarning("StateMachine: No states to run.");
-                return;
+                _transitionMap[fromState] = new List<ITransition<TContext>>();
             }
-            
-            _isActive = true;
-            _currentIndex = 0;
-            _currentState = _stateSequence[_currentIndex];
-            _currentState.StateFinished += MoveToNextState;
-            _currentState.OnEnter(_context);
+
+            _transitionMap[fromState].Add(transition);
         }
-        
+
+        public void AddAnyStateTransition(IState<TContext> toState, Predicate<TContext> transitionCondition, Action<TContext> onTransitionCallback = null)
+        {
+            StateTransition<TContext> transition = new(toState, transitionCondition, onTransitionCallback);
+            _anyStateTransitionList.Add(transition);
+        }
+
+        public void Start(IState<TContext> initialState)
+        {
+            _isActive = true;
+            _currentState = initialState;
+            _currentState.StateFinished += OnStateFinished;
+            _currentState.OnEnter(_stateContext);
+        }
+
         public void Update()
         {
+            if (!_isActive)
+                return;
+
             if (_isPaused)
                 return;
 
-            _currentState.OnUpdate(_context);
+            _currentState.OnUpdate(_stateContext);
         }
-        
-        public void MoveToNextState()
+
+        public void TryTransitioningToState(IState<TContext> targetState)
         {
-            _currentState.OnExit(_context);
-            _currentIndex++;
-            if (_currentIndex >= _stateSequence.Count)
-            {
-                Debug.Log("StateMachine: Reached the end of the state sequence.");
-                _currentIndex = 0;
+            if (!_isActive)
                 return;
+
+            if (_isPaused)
+                return;
+
+            ITransition<TContext> validTransition = FindTransitionToState(targetState);
+
+            if (validTransition != null)
+            {
+                TransitionToState(validTransition);
+            }
+        }
+
+        private ITransition<TContext> FindTransitionToState(IState<TContext> targetState)
+        {
+            if (_transitionMap.TryGetValue(_currentState, out List<ITransition<TContext>> desiredTransition))
+            {
+                foreach (ITransition<TContext> transition in desiredTransition)
+                {
+                    if (transition.TargetState == targetState && transition.CanTransition(_stateContext))
+                    {
+                        return transition;
+                    }
+                }
             }
 
-            _currentState = _stateSequence[_currentIndex];
-            _currentState.OnEnter(_context);
+            foreach (ITransition<TContext> transition in _anyStateTransitionList)
+            {
+                if (transition.TargetState == targetState && transition.CanTransition(_stateContext))
+                {
+                    return transition;
+                }
+            }
+
+            return null;
         }
-        
-        public void AddState(IState<TContext> state)
-        { 
-            _stateSequence.Add(state);
+
+        private void OnStateFinished()
+        {
+            if (!_isActive)
+                return;
+
+            if (_isPaused)
+                return;
+
+            ITransition<TContext> validTransition = CheckTransitions(_anyStateTransitionList);
+            if (validTransition == null && _transitionMap.ContainsKey(_currentState))
+            {
+                validTransition = CheckTransitions(_transitionMap[_currentState]);
+            }
+            if (validTransition != null)
+            {
+                TransitionToState(validTransition);
+            }
         }
-        
-        public void Pause()
+
+        private ITransition<TContext> CheckTransitions(List<ITransition<TContext>> transitionList)
+        {
+            foreach (ITransition<TContext> transition in transitionList)
+            {
+                if (transition.TargetState == _currentState)
+                    continue;
+
+                if (transition.CanTransition(_stateContext))
+                {
+                    return transition;
+                }
+            }
+
+            return null;
+        }
+
+        private void TransitionToState(ITransition<TContext> transition)
+        {
+            transition.OnTransition(_stateContext);
+            TransitionToState(transition.TargetState);
+        }
+
+        private void TransitionToState(IState<TContext> targetState)
+        {
+            Pause();
+
+            _currentState.StateFinished -= OnStateFinished;
+            _currentState.OnExit(_stateContext);
+
+            _currentState = targetState;
+            _currentState.StateFinished += OnStateFinished;
+            _currentState.OnEnter(_stateContext);
+
+            Resume();
+        }
+
+        private void Pause()
         {
             _isPaused = true;
         }
 
-        public void Resume()
+        private void Resume()
         {
             _isPaused = false;
         }
 
-        private void Stop()
+        public void Stop()
         {
-            Pause();
-            _currentState.OnExit(_context);
-            _currentState.StateFinished -= MoveToNextState;
+            if (!_isActive)
+                return;
+
+            _isPaused = false;
+            if (_currentState != null)
+            {
+                _currentState.StateFinished -= OnStateFinished;
+                _currentState.OnExit(_stateContext);
+            }
             _isActive = false;
-            _currentIndex = -1;
             _currentState = null;
         }
-        
+
         public void Clear()
         {
             Stop();
-            _stateSequence.Clear();
-            _currentIndex = -1;
+            _transitionMap.Clear();
+            _anyStateTransitionList.Clear();
         }
     }
 }

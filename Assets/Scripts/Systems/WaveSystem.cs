@@ -71,12 +71,12 @@ namespace Systems
                 _currentWaveData = _waveDataList[randomWaveIndex];
                 EnemyClass enemyClass = _currentWaveData.EnemySpawnData.EnemyData;
                 
-                BaseGridEntity spawnedEnemy = await _enemySpawner.ProvideEnemyEntity(enemyClass);
+                IGridEntity spawnedEnemy = await _enemySpawner.ProvideEnemyEntity(enemyClass);
                 Vector2Int spawnBoardIndex = new(UnityEngine.Random.Range(0, _boardSystem.BoardSizeData.RowNumber), UnityEngine.Random.Range(_enemyMinSpawnColumnNumber, _boardSystem.BoardSizeData.ColumnNumber));
                 spawnedEnemy.SetBoardIndex(spawnBoardIndex);
                 
                 Vector3 spawnWorldPosition = _boardSystem.BoardSizeData.CalculateCenteredCellPosition(spawnBoardIndex.x, spawnBoardIndex.y);
-                Vector3 finalPosition = new(spawnWorldPosition.x, spawnWorldPosition.y + spawnedEnemy.gameObject.transform.localScale.y, spawnWorldPosition.z);
+                Vector3 finalPosition = new(spawnWorldPosition.x, spawnWorldPosition.y + spawnedEnemy.WorldTransform.localScale.y, spawnWorldPosition.z);
                 spawnedEnemy.SetWorldPosition(finalPosition);
                 
                 spawnedEnemy.Initialize();
@@ -97,6 +97,11 @@ namespace Systems
             }
             
             WaveCompleted?.Invoke();
+        }
+
+        private void OnWaveCompleted()
+        {
+            //TODO: Do cool stuff when wave is completed
         }
 
         public void Tick()

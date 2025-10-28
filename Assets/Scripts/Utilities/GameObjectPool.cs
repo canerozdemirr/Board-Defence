@@ -32,6 +32,7 @@ namespace Utilities
         protected virtual void OnReturnedToPool(T returnedObject)
         {
             returnedObject.OnReturnToPool();
+            returnedObject.gameObject.SetActive(false);
             returnedObject.transform.parent = _poolParent;
         }
 

@@ -6,55 +6,40 @@ namespace Utilities.Helpers
 {
     public static class DirectionHelper
     {
-        private static readonly Vector2Int Forward = new(1, 0);
-        private static readonly Vector2Int Backward = new(-1, 0);
-        private static readonly Vector2Int Left = new(0, -1);
-        private static readonly Vector2Int Right = new(0, 1);
+        private static readonly Vector2Int Forward = new(0, 1);
+        private static readonly Vector2Int Backward = new(0, -1);
+        private static readonly Vector2Int Left = new(-1, 0);
+        private static readonly Vector2Int Right = new(1, 0);
 
-        private static readonly Vector2Int ForwardLeft = new(1, -1);
+        private static readonly Vector2Int ForwardLeft = new(-1, 1);
         private static readonly Vector2Int ForwardRight = new(1, 1);
         private static readonly Vector2Int BackwardLeft = new(-1, -1);
-        private static readonly Vector2Int BackwardRight = new(-1, 1);
-     
-        public static readonly Vector2Int None = Vector2Int.zero;
+        private static readonly Vector2Int BackwardRight = new(1, -1);
 
-        private static Vector2Int[] GetCardinalDirections()
+        private static readonly Vector2Int None = Vector2Int.zero;
+        
+        public static Vector2Int GetDirectionFromDetectionFlag(Direction detectionDirection)
         {
-            return new[] { Forward, Backward, Left, Right };
-        }
-
-        private static Vector2Int[] GetAllDirections()
-        {
-            return new[] 
-            { 
-                Forward, Backward, Left, Right,
-                ForwardLeft, ForwardRight, BackwardLeft, BackwardRight
-            };
+            if (detectionDirection.HasFlag(Direction.Forward))
+                return Forward;
+            if (detectionDirection.HasFlag(Direction.Backward))
+                return Backward;
+            if (detectionDirection.HasFlag(Direction.Left))
+                return Left;
+            return detectionDirection.HasFlag(Direction.Right) ? Right : None;
         }
         
-        public static Vector2Int GetRandomCardinal()
-        {
-            Vector2Int[] directions = GetCardinalDirections();
-            return directions[Random.Range(0, directions.Length)];
-        }
-        
-        public static Vector2Int GetRandomDirection()
-        {
-            Vector2Int[] directions = GetAllDirections();
-            return directions[Random.Range(0, directions.Length)];
-        }
-        
-        public static Vector2Int[] GetDirectionsFromDetectionFlag(EnemyDetectionDirection detectionDirection)
+        public static Vector2Int[] GetDirectionsFromDetectionFlag(Direction detectionDirection)
         {
             List<Vector2Int> directions = new();
             
-            if (detectionDirection.HasFlag(EnemyDetectionDirection.Forward))
+            if (detectionDirection.HasFlag(Direction.Forward))
                 directions.Add(Forward);
-            if (detectionDirection.HasFlag(EnemyDetectionDirection.Backward))
+            if (detectionDirection.HasFlag(Direction.Backward))
                 directions.Add(Backward);
-            if (detectionDirection.HasFlag(EnemyDetectionDirection.Left))
+            if (detectionDirection.HasFlag(Direction.Left))
                 directions.Add(Left);
-            if (detectionDirection.HasFlag(EnemyDetectionDirection.Right))
+            if (detectionDirection.HasFlag(Direction.Right))
                 directions.Add(Right);
 
             return directions.ToArray();

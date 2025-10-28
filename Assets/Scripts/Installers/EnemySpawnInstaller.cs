@@ -12,8 +12,9 @@ namespace Installers
         
         public override void InstallBindings()
         {
+            Container.Inject(_enemySpawner);
             _enemySpawner.SetEnemyEntityLibrary(_enemyEntityLibrary);
-            Container.BindInterfacesAndSelfTo<EnemySpawner>().FromInstance(_enemySpawner).AsSingle(); 
+            Container.BindInterfacesAndSelfTo<EnemySpawner>().FromInstance(_enemySpawner).AsSingle();
         }
     }
 }

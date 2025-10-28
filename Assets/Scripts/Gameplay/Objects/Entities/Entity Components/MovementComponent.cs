@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Gameplay.Objects.Entities.Entity_Components
 {
-    public class BoardMovementComponent : BaseEntityComponent, IBoardMovementEntityComponent
+    public class MovementComponent : BaseEntityComponent, IMovementEntityComponent
     {
         private float _blockPassPerSecond;
         private float _movementSpeed;
@@ -22,13 +22,18 @@ namespace Gameplay.Objects.Entities.Entity_Components
         private BoardSizeData _boardSizeData;
         private EnemyEntityData _enemyEntityData;
 
-        private Vector2Int _currentBlockPosition;
-        private Vector2Int _targetBlockPosition;
+        private Vector2Int _currentBlockIndex;
+        private Vector2Int _targetBlockIndex;
+        
         private Vector3 _targetWorldPosition;
 
         private bool _isMoving;
         private float _moveProgress;
         private Vector3 _moveStartPosition;
+
+        public Vector2Int CurrentBlockIndex => _currentBlockIndex;
+        public bool IsMoving => _isMoving;
+        public event Action ReachToEndBlock;
 
         private readonly AnimationCurve _movementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
@@ -46,15 +51,21 @@ namespace Gameplay.Objects.Entities.Entity_Components
             {
                 _enemyEntityData = _enemyEntity.EnemyEntityData;
                 _blockPassPerSecond = _enemyEntityData.BlockPassPerSecond;
-                SetSpeedBySecondsPerCell();
+                SetSpeedBySecondsPerBlock();
             }
-            
+
             _boardSizeData = _boardSystem.BoardSizeData;
-            _currentBlockPosition = WorldToGridPosition(transform.position);
-            _targetBlockPosition = _currentBlockPosition;
+            _currentBlockIndex = WorldToGridPosition(transform.position);
+            _targetBlockIndex = _currentBlockIndex;
         }
 
-        private void StartSmoothMovement()
+        public override void Disable()
+        {
+            base.Disable();
+            StopMovement();
+        }
+
+        private void StartMovement()
         {
             _isMoving = true;
             _moveProgress = 0f;
@@ -64,8 +75,8 @@ namespace Gameplay.Objects.Entities.Entity_Components
             _moveCancellationToken?.Dispose();
             _moveCancellationToken = new CancellationTokenSource();
 
-            int cellDistance = GetCellDistance(_currentBlockPosition, _targetBlockPosition);
-            float moveDuration = cellDistance * (1f / _movementSpeed);
+            int blockDistance = GetBlockDistance(_currentBlockIndex, _targetBlockIndex);
+            float moveDuration = blockDistance * (1f / _movementSpeed);
 
             StartMovementRoutine(moveDuration, _moveCancellationToken.Token).Forget();
         }
@@ -90,9 +101,14 @@ namespace Gameplay.Objects.Entities.Entity_Components
             if (!cancellationToken.IsCancellationRequested)
             {
                 transform.position = _targetWorldPosition;
-                _currentBlockPosition = _targetBlockPosition;
+                _currentBlockIndex = _targetBlockIndex;
                 _isMoving = false;
                 _moveProgress = 1f;
+                
+                if(_boardSizeData.ColumnNumber - _currentBlockIndex.y == _boardSizeData.ColumnNumber)
+                {
+                    ReachToEndBlock?.Invoke();
+                }
             }
         }
 
@@ -104,7 +120,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             float x = gridPosition.x * _boardSizeData.CellSize - halfWidth;
             float z = gridPosition.y * _boardSizeData.CellSize - halfDepth;
 
-            return _boardSizeData.BoardCenterPosition + new Vector3(x, _boardSizeData.CellYPosition, z);
+            return _boardSizeData.BoardCenterPosition + new Vector3(x, transform.position.y, z);
         }
 
         private Vector2Int WorldToGridPosition(Vector3 worldPosition)
@@ -126,25 +142,27 @@ namespace Gameplay.Objects.Entities.Entity_Components
             {
                 StopMovement();
             }
-            
-            _targetBlockPosition = targetPosition;
+
+            _targetBlockIndex = targetPosition;
             _targetWorldPosition = GridToWorldPosition(targetPosition);
-            StartSmoothMovement();
+            StartMovement();
         }
 
         public void StopMovement()
         {
             if (!_isMoving) return;
-            
+
             _moveCancellationToken?.Cancel();
             _moveCancellationToken?.Dispose();
             _moveCancellationToken = null;
-            
+
             _isMoving = false;
             _moveProgress = 0f;
-            
-            _currentBlockPosition = WorldToGridPosition(transform.position);
-            _targetBlockPosition = _currentBlockPosition;
+
+            _currentBlockIndex = WorldToGridPosition(transform.position);
+            _targetBlockIndex = _currentBlockIndex;
+
+            transform.position = GridToWorldPosition(_currentBlockIndex);
         }
 
         private void SetSpeed(float blocksPerSecond)
@@ -152,24 +170,12 @@ namespace Gameplay.Objects.Entities.Entity_Components
             _movementSpeed = Mathf.Max(0.01f, blocksPerSecond);
         }
 
-        private void SetSpeedBySecondsPerCell()
+        private void SetSpeedBySecondsPerBlock()
         {
-            float blocksPerSecond = 1f / Mathf.Max(0.01f, _blockPassPerSecond);
-            SetSpeed(blocksPerSecond);
+            SetSpeed(_blockPassPerSecond);
         }
 
-        public float GetTimeToReach(Vector2Int targetPosition)
-        {
-            int distance = GetCellDistance(_currentBlockPosition, targetPosition);
-            return distance * (1f / _movementSpeed);
-        }
-
-        public int GetDistanceTo(Vector2Int targetPosition)
-        {
-            return GetCellDistance(_currentBlockPosition, targetPosition);
-        }
-
-        private int GetCellDistance(Vector2Int from, Vector2Int to)
+        private int GetBlockDistance(Vector2Int from, Vector2Int to)
         {
             return Mathf.Abs(to.x - from.x) + Mathf.Abs(to.y - from.y);
         }
@@ -182,8 +188,10 @@ namespace Gameplay.Objects.Entities.Entity_Components
 
         public void MoveInDirection(Vector2Int direction)
         {
-            Vector2Int targetPos = _currentBlockPosition + direction;
-            MoveToGridPosition(targetPos);
+            Vector2Int targetPosition = _currentBlockIndex + direction;
+            if(!CanMoveTo(targetPosition))
+                return;
+            MoveToGridPosition(targetPosition);
         }
 
         private void OnDestroy()

@@ -5,12 +5,14 @@ using Utilities;
 
 namespace Gameplay.Objects.Entities.Entity_Components
 {
-    public class HealthEntityComponent : BaseEntityComponent, IHealthEntityComponent
+    public class HealthComponent : BaseEntityComponent, IHealthEntityComponent
     {
-        private float _healthAmount;
+        private float _currentHealthAmount = 1;
 
         private IEnemyEntity _enemyEntity;
-        
+
+        public float CurrentHealthAmount => _currentHealthAmount;
+
         public event Action<float> HealthChanged;
         public event Action EntityDeath;
 
@@ -19,17 +21,19 @@ namespace Gameplay.Objects.Entities.Entity_Components
             base.Initialize(owner);
             _enemyEntity = owner as IEnemyEntity;
             if (_enemyEntity != null)
-                _healthAmount = _enemyEntity.EnemyEntityData.Health;
+            {
+                _currentHealthAmount = _enemyEntity.EnemyEntityData.Health;
+            }
         }
         
         public void TakeDamage(int damage)
         {
-            _healthAmount -= damage;
-            HealthChanged?.Invoke(_healthAmount);
-            if (!(_healthAmount <= 0)) 
+            _currentHealthAmount -= damage;
+            HealthChanged?.Invoke(_currentHealthAmount);
+            if (!(_currentHealthAmount <= 0)) 
                 return;
             
-            _healthAmount = 0;
+            _currentHealthAmount = 0;
             EntityDeath?.Invoke();
         }
 
