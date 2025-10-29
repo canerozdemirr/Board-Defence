@@ -55,11 +55,13 @@ namespace Systems
 
         private void OnMouseClicked(BlockClicked clickEvent)
         {
-            Vector2Int blockIndex = clickEvent.BlockIndex;
-
+            if (!_isInPlacementMode)
+                return;
+            
             if (!_inventorySystem.HasItem(_selectedItemName))
                 return;
-
+            
+            Vector2Int blockIndex = clickEvent.BlockIndex;
             if (!_boardSystem.IsValidPlacementPosition(blockIndex))
                 return;
 
@@ -85,7 +87,6 @@ namespace Systems
             {
                 CancelPlacementMode();
             }
-
         }
 
         public void Dispose()
