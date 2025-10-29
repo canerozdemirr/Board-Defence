@@ -5,8 +5,8 @@ namespace Datas.Configs.Entity_Configs.Tower_Configs
     [CreateAssetMenu(fileName = "New Tower Entity Library", menuName = "Configs/Libraries/Create Tower Entity Library")]
     public class TowerEntityLibrary : ScriptableObject
     {
-        [SerializeField] private TowerEntityConfig[] _defenceItemConfigList;
+        [SerializeField] private TowerEntityConfig[] _towerEntityConfigList;
         
-        public TowerEntityConfig[] DefenceItemConfigList => _defenceItemConfigList;
+        public TowerEntityConfig[] TowerEntityConfigList => _towerEntityConfigList;
     }
 }
