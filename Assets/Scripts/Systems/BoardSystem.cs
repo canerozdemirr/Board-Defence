@@ -116,6 +116,7 @@ namespace Systems
                 _blockToEntityMap[blockIndex] = new List<IBlockEntity>();
             }
             _blockToEntityMap[blockIndex].Add(entity);
+            entity.SetBoardIndex(blockIndex);
         }
 
         public void RemoveEntityAtBlock(Vector2Int blockIndex, IBlockEntity entity)

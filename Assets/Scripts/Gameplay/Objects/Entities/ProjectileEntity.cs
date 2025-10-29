@@ -1,12 +1,13 @@
 using System;
 using Datas.EntityDatas.ProjectileDatas;
+using Events.Projectile;
 using Gameplay.Interfaces;
 using UnityEngine;
 using Utilities;
 
 namespace Gameplay.Objects.Entities
 {
-    public class ProjectileEntity : MonoBehaviour, IProjectileEntity, IPoolable
+    public class ProjectileEntity : MonoBehaviour, IEntity, IPoolable
     {
         private ProjectileEntityData _projectileEntityData;
         private IEnemyEntity _targetEnemy;
@@ -14,6 +15,7 @@ namespace Gameplay.Objects.Entities
         private float _speed;
 
         public Transform WorldTransform => transform;
+        public ProjectileEntityData ProjectileEntityData => _projectileEntityData;
 
         public void Initialize()
         {
@@ -37,6 +39,8 @@ namespace Gameplay.Objects.Entities
 
         public void OnReturnToPool()
         {
+            _targetEnemy = null;
+            _damage = 0f;
             OnDeactivate();
         }
 
@@ -85,14 +89,12 @@ namespace Gameplay.Objects.Entities
         private void OnHitTarget()
         {
             _targetEnemy.TakeDamage(_damage);
-            ReturnToPool();
+            EventBus.Publish(new ProjectileHit(this));
         }
 
         private void ReturnToPool()
         {
-            _targetEnemy = null;
-            _damage = 0f;
-            OnDeactivate();
+            EventBus.Publish(new ProjectileHit(this));
         }
     }
 }

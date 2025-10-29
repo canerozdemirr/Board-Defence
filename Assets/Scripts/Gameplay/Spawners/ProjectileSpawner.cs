@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Datas.Configs.Entity_Configs.Projectile_Configs;
 using Datas.EntityDatas.ProjectileDatas;
+using Events.Projectile;
 using Gameplay.Interfaces;
 using Gameplay.Objects.Entities;
 using UnityEngine;
@@ -27,6 +28,12 @@ namespace Gameplay.Spawners
         {
             _projectileEntityPoolMap = new Dictionary<string, AddressableGameObjectPool<ProjectileEntity>>();
             _activeProjectiles = new List<ProjectileEntity>();
+            EventBus.Subscribe<ProjectileHit>(OnProjectileHit);
+        }
+
+        private void OnProjectileHit(ProjectileHit projectileHit)
+        {
+            ReturnProjectileToPool(projectileHit.Projectile);
         }
 
         public async UniTask<ProjectileEntity> ProvideProjectileEntity(string projectileName, Vector3 spawnPosition)
@@ -60,8 +67,7 @@ namespace Gameplay.Spawners
                 if (projectileEntityData.ProjectileName != projectileName)
                     continue;
 
-                projectilePool = await AddressableGameObjectPool<ProjectileEntity>.CreateAsync(
-                    projectileEntityConfig.EntityVisualData.AssetReference, transform);
+                projectilePool = await AddressableGameObjectPool<ProjectileEntity>.CreateAsync(projectileEntityConfig.EntityVisualData.AssetReference, transform);
                 break;
             }
 
@@ -85,17 +91,18 @@ namespace Gameplay.Spawners
 
         public void ReturnProjectileToPool(ProjectileEntity projectile)
         {
-            string projectileName = projectile.GetComponent<ProjectileEntity>().ToString();
-            if (!_projectileEntityPoolMap.TryGetValue(projectileName, out AddressableGameObjectPool<ProjectileEntity> pool))
+            if (!_activeProjectiles.Contains(projectile))
                 return;
 
             _activeProjectiles.Remove(projectile);
             projectile.OnDeactivate();
-            pool.DeSpawn(projectile);
+            _projectileEntityPoolMap[projectile.ProjectileEntityData.ProjectileName].DeSpawn(projectile);
         }
 
         private void OnDestroy()
         {
+            EventBus.Unsubscribe<ProjectileHit>(OnProjectileHit);
+
             foreach (AddressableGameObjectPool<ProjectileEntity> pool in _projectileEntityPoolMap.Values)
             {
                 pool.ClearObjectReferences();
