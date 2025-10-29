@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using UI;
 using UnityEngine;
 using Utilities;
 
@@ -12,17 +13,17 @@ namespace Datas.Configs.UI_Configs
         [SerializeField] [Dropdown("GetUITagList")]
         private string _elementName;
 
-        [SerializeField] private GameObject _prefab;
+        [SerializeField] private BaseUIElement _prefab;
 
         public string ElementName => _elementName;
-        public GameObject Prefab => _prefab;
+        public BaseUIElement Prefab => _prefab;
 
         private static List<string> GetUITagList()
         {
             return new List<string>
             {
                 Constants.LevelUIPanelTag,
-                Constants.TowerSelectionPanelTag
+                Constants.ItemSelectionPanelTag
             };
         }
     }

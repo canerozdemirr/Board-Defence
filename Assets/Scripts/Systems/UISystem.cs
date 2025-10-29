@@ -51,8 +51,10 @@ namespace Systems
             {
                 return (T)element;
             }
-
-            return default;
+            
+            T uiElement = _uiSpawner.ProvideUIElement<T>(elementName);
+            _activeUIElements[elementName] = uiElement;
+            return uiElement;
         }
 
         private void HideAllUIElements()

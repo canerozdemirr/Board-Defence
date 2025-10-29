@@ -43,7 +43,7 @@ namespace Gameplay.Spawners
             }
 
             UIElementConfig config = FindUIElementConfig(elementName);
-            GameObjectPool<BaseUIElement> uiPool = GameObjectPool<BaseUIElement>.Create(config.Prefab, transform, defaultSize: 1, maxSize: 2, dontDestroyOnLoad: true);
+            GameObjectPool<BaseUIElement> uiPool = GameObjectPool<BaseUIElement>.Create(config.Prefab.gameObject, transform, defaultSize: 1, maxSize: 2, dontDestroyOnLoad: true);
 
             _uiElementPoolMap.Add(elementName, uiPool);
             spawnedUIElement = _uiElementPoolMap[elementName].Spawn();

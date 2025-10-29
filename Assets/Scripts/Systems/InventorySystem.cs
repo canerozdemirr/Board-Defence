@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Datas.WaveDatas;
 using Systems.Interfaces;
+using UI.Elements;
 using Zenject;
 
 namespace Systems
@@ -9,6 +10,8 @@ namespace Systems
     [Serializable]
     public class InventorySystem : IInventorySystem, IInitializable, IDisposable
     {
+        [Inject] private IUISystem _uiSystem;
+
         private Dictionary<string, int> _currentInventory;
 
         public event Action<string, int> InventoryUpdated;
@@ -25,6 +28,9 @@ namespace Systems
                 _currentInventory[item.ItemName] = item.ItemAmount;
                 InventoryUpdated?.Invoke(item.ItemName, item.ItemAmount);
             }
+
+            ItemSelectionPanel panel = _uiSystem.ShowUIElement<ItemSelectionPanel>("ItemSelectionPanel");
+            panel.SetupButtons(inventoryData);
         }
 
         public bool HasItem(string itemName, int amount = 1)

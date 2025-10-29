@@ -7,7 +7,7 @@ namespace Utilities
         #region UI Tags
 
         public static string LevelUIPanelTag = "LevelUIPanel";
-        public static string TowerSelectionPanelTag = "TowerSelectionPanel";
+        public static string ItemSelectionPanelTag = "ItemSelectionPanel";
         
         #endregion
 

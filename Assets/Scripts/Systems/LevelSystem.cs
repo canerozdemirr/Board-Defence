@@ -36,7 +36,7 @@ namespace Systems
             _currentLevelData = _levelConfig.LevelDataList[_currentLevelIndex];
             _levelState = LevelState.WaitingTowerPlacement;
 
-            _inventorySystem.UpdateInventory(_currentLevelData.InventoryData);
+            _inventorySystem.UpdateInventory(_currentLevelData.InventoryData.Clone());
 
             LevelDataLoaded?.Invoke(_currentLevelData);
 

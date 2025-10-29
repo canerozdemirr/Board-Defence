@@ -37,6 +37,7 @@ namespace Installers
 
             _enemySpawner.SetEnemyEntityLibrary(_enemyEntityLibrary);
             _towerSpawner.SetTowerEntityLibrary(_towerEntityLibrary);
+            _boardSpawner.InjectDependencies(_blockEntityPrefab);
 
             Container.BindInterfacesAndSelfTo<EnemySpawner>().FromInstance(_enemySpawner).AsSingle();
             Container.BindInterfacesAndSelfTo<TowerSpawner>().FromInstance(_towerSpawner).AsSingle();
