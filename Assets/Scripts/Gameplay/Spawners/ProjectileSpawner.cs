@@ -71,7 +71,7 @@ namespace Gameplay.Spawners
                 break;
             }
 
-            _projectileEntityPoolMap.Add(projectileName, projectilePool);
+            _projectileEntityPoolMap.TryAdd(projectileName, projectilePool);
             spawnedProjectile = _projectileEntityPoolMap[projectileName].Spawn();
             _container.InjectGameObject(spawnedProjectile.gameObject);
 
