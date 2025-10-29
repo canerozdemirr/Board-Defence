@@ -56,7 +56,7 @@ namespace Gameplay.Objects.Entities.Item_Entities
         public override void OnActivate()
         {
             base.OnActivate();
-            _animateComponent.PlayAnimation(Constants.TowerPlacementAnimationTag);
+            _animateComponent.PlayAnimation(Constants.PlacementAnimationTag);
             EventBus.Subscribe<StartWaveRequested>(OnWaveStarted);
         }
 

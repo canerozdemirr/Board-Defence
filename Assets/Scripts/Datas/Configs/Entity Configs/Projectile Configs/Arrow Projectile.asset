@@ -15,7 +15,7 @@ MonoBehaviour:
   _configID: 099a1c8b-30eb-4047-acba-088270e5c92f
   _projectileEntityData:
     _projectileName: Arrow
-    _speed: 1
+    _speed: 3
   _entityVisualData:
     _assetReference:
       m_AssetGUID: e6650df191bbd7b4d9d38801980adc63

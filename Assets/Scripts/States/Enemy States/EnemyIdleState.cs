@@ -1,24 +1,25 @@
 using System;
 using Gameplay.Interfaces;
+using Utilities;
 
 namespace States.Enemy_States
 {
     [Serializable]
     public class EnemyIdleState : BaseState<IEnemyEntity>
     {
-        private float _idleTime;
-        private readonly float _idleDuration = 2f;
+        private bool _animationPlayed;
+        private IAnimateComponent _animateComponent;
 
         public override void OnEnter(IEnemyEntity context)
         {
-            _idleTime = 0f;
+            _animationPlayed = false;
+            _animateComponent = context.RequestEntityComponent<IAnimateComponent>();
+            _animateComponent.PlayAnimationAsync(Constants.PlacementAnimationTag, () => _animationPlayed = true);
         }
 
         public override void OnUpdate(IEnemyEntity context)
         {
-            _idleTime += UnityEngine.Time.deltaTime;
-
-            if (_idleTime >= _idleDuration)
+            if (_animationPlayed)
             {
                 FinishState();
             }

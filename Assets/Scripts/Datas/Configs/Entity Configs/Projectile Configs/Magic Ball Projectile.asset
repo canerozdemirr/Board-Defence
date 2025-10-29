@@ -15,7 +15,7 @@ MonoBehaviour:
   _configID: d61186d6-37b6-4af8-aa0a-99058643b3c1
   _projectileEntityData:
     _projectileName: Magic Ball
-    _speed: 1
+    _speed: 3
   _entityVisualData:
     _assetReference:
       m_AssetGUID: f7f8f56de3faf314d9f8254c17ba0ed5

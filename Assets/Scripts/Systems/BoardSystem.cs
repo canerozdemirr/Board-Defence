@@ -15,9 +15,9 @@ namespace Systems
     public class BoardSystem : IBoardSystem, IInitializable, IDisposable
     {
         private readonly BoardPreparationConfig _boardPreparationConfig;
-
+        
         private BoardSizeData _boardSizeData;
-        private BoardBlockData[,] _boardCellDataList;
+        private BoardBlockData[,] _boardBlockDataList;
         private Dictionary<Vector2Int, List<IBlockEntity>> _blockToEntityMap;
         public BoardSizeData BoardSizeData => _boardSizeData;
 
@@ -37,7 +37,7 @@ namespace Systems
             _boardSizeData = _boardPreparationConfig.BoardSizeData;
             int rowNumber = _boardSizeData.RowNumber;
             int columnNumber = _boardSizeData.ColumnNumber;
-            _boardCellDataList = new BoardBlockData[rowNumber, columnNumber];
+            _boardBlockDataList = new BoardBlockData[rowNumber, columnNumber];
 
             for (int row = 0; row < rowNumber; row++)
             {
@@ -50,13 +50,13 @@ namespace Systems
                         blockType = BlockType.PlayerZone;
                     }
                     
-                    _boardCellDataList[row, column] =
+                    _boardBlockDataList[row, column] =
                         new BoardBlockData(new Vector2Int(row, column), blockType, BlockState.Empty);
                 }
             }
 
             //I am publishing the event here to notify that the board data is ready, it will be used by the spawner as well as other systems if needed, like providing data for AI decision making in advanced cases or providing visual indicators for the player.
-            EventBus.Publish(new BoardDataReady(_boardSizeData, _boardCellDataList));
+            EventBus.Publish(new BoardDataReady(_boardSizeData, _boardBlockDataList));
         }
 
         public Vector3 GetWorldPositionFromBlock(Vector2Int blockIndex)
@@ -64,49 +64,33 @@ namespace Systems
             return _boardSizeData.CalculateCenteredCellPosition(blockIndex.x, blockIndex.y);
         }
 
-        public Vector2Int GetBlockIndexFromWorld(Vector3 worldPosition)
-        {
-            float cellSize = _boardSizeData.BlockSize;
-            Vector3 boardCenter = _boardSizeData.BoardCenterPosition;
-
-            int row = Mathf.RoundToInt((worldPosition.z - boardCenter.z) / cellSize + _boardSizeData.RowNumber / 2f);
-            int col = Mathf.RoundToInt((worldPosition.x - boardCenter.x) / cellSize + _boardSizeData.ColumnNumber / 2f);
-
-            return new Vector2Int(row, col);
-        }
-
         public bool IsBlockOccupied(Vector2Int blockIndex)
         {
-            return _boardCellDataList[blockIndex.x, blockIndex.y].BlockState == BlockState.Occupied;
+            return _boardBlockDataList[blockIndex.x, blockIndex.y].BlockState == BlockState.Occupied;
         }
 
         public void OccupyBlock(Vector2Int blockIndex)
         {
-            _boardCellDataList[blockIndex.x, blockIndex.y] = new BoardBlockData(
+            _boardBlockDataList[blockIndex.x, blockIndex.y] = new BoardBlockData(
                 blockIndex,
-                _boardCellDataList[blockIndex.x, blockIndex.y].BlockType,
+                _boardBlockDataList[blockIndex.x, blockIndex.y].BlockType,
                 BlockState.Occupied
             );
         }
 
         public void FreeBlock(Vector2Int blockIndex)
         {
-            _boardCellDataList[blockIndex.x, blockIndex.y] = new BoardBlockData(
+            _boardBlockDataList[blockIndex.x, blockIndex.y] = new BoardBlockData(
                 blockIndex,
-                _boardCellDataList[blockIndex.x, blockIndex.y].BlockType,
+                _boardBlockDataList[blockIndex.x, blockIndex.y].BlockType,
                 BlockState.Empty
             );
         }
 
         public bool IsValidPlacementPosition(Vector2Int blockIndex)
         {
-            BoardBlockData blockData = _boardCellDataList[blockIndex.x, blockIndex.y];
+            BoardBlockData blockData = _boardBlockDataList[blockIndex.x, blockIndex.y];
             return blockData is { BlockType: BlockType.PlayerZone, BlockState: BlockState.Empty };
-        }
-
-        public BoardBlockData GetBlockData(Vector2Int blockIndex)
-        {
-            return _boardCellDataList[blockIndex.x, blockIndex.y];
         }
 
         public void AddEntityAtBlock(Vector2Int blockIndex, IBlockEntity entity)
@@ -134,7 +118,7 @@ namespace Systems
 
         public void Dispose()
         {
-            _boardCellDataList = null;
+            _boardBlockDataList = null;
             _boardSizeData = default;
             _blockToEntityMap.Clear();
             _blockToEntityMap = null;

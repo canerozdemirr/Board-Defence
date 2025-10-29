@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Events;
 using Events.Wave;
@@ -15,11 +16,13 @@ namespace Systems
     public class ItemPlacementSystem : IItemPlacementSystem, IInitializable, IDisposable
     {
         [Inject] private IBoardSystem _boardSystem;
+        [Inject] private ILevelSystem _levelSystem;
         [Inject] private ITowerSpawner _towerSpawner;
         [Inject] private IInventorySystem _inventorySystem;
 
         private string _selectedItemName;
         private bool _isInPlacementMode;
+        private List<TowerEntity> _activePlacedItems = new();
 
         public bool IsInPlacementMode => _isInPlacementMode;
 
@@ -30,6 +33,17 @@ namespace Systems
         {
             _isInPlacementMode = false;
             EventBus.Subscribe<StartWaveRequested>(OnWaveStarted);
+            _levelSystem.LevelCompleted += OnLevelCompleted;
+        }
+
+        private void OnLevelCompleted(int levelIndex)
+        {
+            foreach (TowerEntity placedItem in _activePlacedItems)
+            {
+                _boardSystem.FreeBlock(placedItem.BoardIndex);
+                _boardSystem.RemoveEntityAtBlock(placedItem.BoardIndex, placedItem);
+            }
+            _activePlacedItems.Clear();
         }
 
         private void OnWaveStarted(StartWaveRequested waveStarted)
@@ -87,6 +101,8 @@ namespace Systems
             {
                 CancelPlacementMode();
             }
+            
+            _activePlacedItems.Add(tower);
         }
 
         public void Dispose()
@@ -96,6 +112,7 @@ namespace Systems
             {
                 CancelPlacementMode();
             }
+            _levelSystem.LevelCompleted -= OnLevelCompleted;
         }
     }
 }

@@ -6,6 +6,7 @@ using Events.Enemies;
 using Events.Wave;
 using Gameplay.Interfaces;
 using Systems.Interfaces;
+using UI.Elements;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -46,7 +47,7 @@ namespace Systems
 
         public void Initialize()
         {
-            _currentLevelIndex = 1;
+            _currentLevelIndex = 0;
             _currentLevelData = _levelConfig.LevelDataList[_currentLevelIndex];
             _levelState = LevelState.WaitingTowerPlacement;
 
@@ -66,6 +67,10 @@ namespace Systems
             _totalEnemiesInWave = totalEnemies;
             _enemiesDefeated = 0;
             _levelState = LevelState.BattleInProgress;
+            LevelUIPanel panel = _uiSystem.ShowUIElement<LevelUIPanel>(Constants.LevelUIPanelTag);
+            panel.RegisterEnemyCount(_totalEnemiesInWave);
+            panel.RegisterLevelCount(_currentLevelIndex + 1,_levelConfig.LevelDataList.Length);
+            StartNewLevel();
         }
 
         private void OnEnemyDeath(EnemyDeath enemyDeath)
@@ -121,7 +126,7 @@ namespace Systems
 
         private void StartNewLevel()
         {
-            LevelStarted?.Invoke(_currentLevelIndex);
+            LevelStarted?.Invoke(_currentLevelIndex + 1);
         }
 
         public void Dispose()

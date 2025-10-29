@@ -15,7 +15,7 @@ MonoBehaviour:
   _configID: e0b13ea3-3e68-4026-84bb-318e0520a7e9
   _projectileEntityData:
     _projectileName: Holy Ball
-    _speed: 0.5
+    _speed: 1.5
   _entityVisualData:
     _assetReference:
       m_AssetGUID: 4f5bfbe5ba9f0e64483a65906473570a

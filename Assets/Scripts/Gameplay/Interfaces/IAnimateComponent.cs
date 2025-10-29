@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 
 namespace Gameplay.Interfaces
@@ -5,6 +6,6 @@ namespace Gameplay.Interfaces
     public interface IAnimateComponent : IEntityComponent
     {
         void PlayAnimation(string animationKey);
-        UniTask PlayAnimationAsync(string animationKey);
+        UniTask PlayAnimationAsync(string animationKey, Action callback = null);
     }
 }

@@ -53,7 +53,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             }
         }
 
-        public async UniTask PlayAnimationAsync(string animationKey)
+        public async UniTask PlayAnimationAsync(string animationKey, Action onComplete = null)
         {
             if (!_animationMap.TryGetValue(animationKey, out AnimationData animationData))
                 return;
@@ -82,6 +82,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             }
 
             await tween.ToUniTask();
+            onComplete?.Invoke();
         }
     }
 }

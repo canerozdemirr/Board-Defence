@@ -98,3 +98,9 @@ MonoBehaviour:
     _endValue: {x: 1, y: 1, z: 1}
     _duration: 0.3
     _ease: 27
+  - _animationKey: Attack
+    _transformType: 0
+    _startValue: {x: 1, y: 1, z: 1}
+    _endValue: {x: 1.15, y: 1.15, z: 1.15}
+    _duration: 0.15
+    _ease: 7
