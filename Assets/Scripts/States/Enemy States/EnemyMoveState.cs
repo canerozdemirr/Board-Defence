@@ -1,5 +1,5 @@
 using System;
-using Datas.ItemDatas;
+using Datas.EntityDatas.TowerDatas;
 using Gameplay.Interfaces;
 using UnityEngine;
 using Utilities.Helpers;
