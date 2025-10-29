@@ -9,20 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a485fea5c99440ea8f2df2d0248db1c4, type: 3}
-  m_Name: Divine Tower Config
-  m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Item_Configs.DefenceItemConfig
-  _configID: 9d2ea8ae-af14-49fa-ba08-61b1252adf74
-  _towerEntityData:
-    _itemName: Divine Tower
-    _damage: 10
-    _range: 1
-    _attackInterval: 5
-    _detectionDirections: -1
+  m_Script: {fileID: 11500000, guid: 6114e0c0044e4e74dbbd7872cc780a07, type: 3}
+  m_Name: Holy Ball Projectile
+  m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Entity_Configs.Projectile_Configs.ProjectileEntityConfig
+  _configID: e0b13ea3-3e68-4026-84bb-318e0520a7e9
+  _projectileEntityData:
     _projectileName: Holy Ball
+    _speed: 0.5
   _entityVisualData:
     _assetReference:
-      m_AssetGUID: aaccbf5491ae4e34e85694a03a6f0117
+      m_AssetGUID: 4f5bfbe5ba9f0e64483a65906473570a
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 

@@ -81,6 +81,11 @@ namespace Gameplay.Objects.Entities
             if (_stateMachine is { IsActive: true, IsPaused: false })
                 _stateMachine.Update();
         }
+        
+        public void TakeDamage(float damage)
+        {
+            _healthComponent.TakeDamage(damage);
+        }
 
         private void OnEntityDeath()
         {

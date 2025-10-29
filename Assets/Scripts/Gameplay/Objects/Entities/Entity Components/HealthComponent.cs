@@ -26,7 +26,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             }
         }
         
-        public void TakeDamage(int damage)
+        public void TakeDamage(float damage)
         {
             _currentHealthAmount -= damage;
             HealthChanged?.Invoke(_currentHealthAmount);
@@ -35,11 +35,6 @@ namespace Gameplay.Objects.Entities.Entity_Components
             
             _currentHealthAmount = 0;
             EntityDeath?.Invoke();
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            
         }
     }
 }

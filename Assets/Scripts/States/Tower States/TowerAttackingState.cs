@@ -1,20 +1,26 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Datas.EntityDatas.TowerDatas;
 using Gameplay.Interfaces;
+using Gameplay.Objects.Entities;
 using UnityEngine;
 using Utilities.Helpers;
+using Zenject;
 
 namespace States.Tower_States
 {
     [Serializable]
     public class TowerAttackingState : BaseState<ITowerEntity>
     {
+        [Inject] private IProjectileSpawner _projectileSpawner;
+
         private IEnemyEntity _targetEnemy;
         private TowerEntityData _towerEntityData;
         private float _attackTimer;
         private float _range;
         private Direction _detectionDirections;
         private Vector2Int[] _directionList;
+        private ITowerEntity _towerContext;
 
         public IEnemyEntity TargetEnemy => _targetEnemy;
 
@@ -26,6 +32,7 @@ namespace States.Tower_States
         public override void OnEnter(ITowerEntity context)
         {
             _attackTimer = 0f;
+            _towerContext = context;
             _towerEntityData = context.TowerEntityData;
             _range = _towerEntityData.Range;
             _detectionDirections = _towerEntityData.DetectionDirections;
@@ -54,7 +61,7 @@ namespace States.Tower_States
             if (!(_attackTimer >= _towerEntityData.AttackInterval))
                 return;
 
-            Attack();
+            Attack().Forget();
             _attackTimer = 0f;
         }
 
@@ -85,9 +92,14 @@ namespace States.Tower_States
             _attackTimer = 0f;
         }
 
-        private void Attack()
+        private async UniTask Attack()
         {
-            Debug.Log("ATTACKKKKKKK");
+            Vector3 spawnPosition = _towerContext.WorldTransform.position;
+            ProjectileEntity projectile = await _projectileSpawner.ProvideProjectileEntity(_towerEntityData.ProjectileName, spawnPosition);
+            projectile.SetTarget(_targetEnemy);
+            projectile.SetDamage(_towerEntityData.Damage);
+            projectile.Initialize();
+            projectile.OnActivate();
         }
     }
 }

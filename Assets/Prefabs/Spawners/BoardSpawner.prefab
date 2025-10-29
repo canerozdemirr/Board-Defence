@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 713929705325099182}
   - component: {fileID: 432013597999775366}
   - component: {fileID: 567262722489980265}
+  - component: {fileID: 1381430754487109846}
   m_Layer: 0
   m_Name: BoardSpawner
   m_TagString: Untagged
@@ -73,6 +74,8 @@ MonoBehaviour:
   _towerEntityLibrary: {fileID: 11400000, guid: 38da588a51da52540b1205b1dfc6fada, type: 2}
   _boardSpawner: {fileID: 567262722489980265}
   _blockEntityPrefab: {fileID: 5135352182872391907, guid: dc86151a8cdf9e84db0a897b23e5f797, type: 3}
+  _projectileSpawner: {fileID: 1381430754487109846}
+  _projectileEntityLibrary: {fileID: 11400000, guid: ec29659b51cad4740aa66b4762880a44, type: 2}
 --- !u!114 &713929705325099182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,3 +112,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0404ef3a4fd64c818ef51d2d0dd802a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Board.BoardSpawner
+--- !u!114 &1381430754487109846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804157225787721422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7080bce082445db418a39b84bcdadd53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Spawners.ProjectileSpawner

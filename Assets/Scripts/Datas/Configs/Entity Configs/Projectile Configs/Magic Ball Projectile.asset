@@ -9,20 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a485fea5c99440ea8f2df2d0248db1c4, type: 3}
-  m_Name: Wizard Tower Config
-  m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Item_Configs.DefenceItemConfig
-  _configID: 05529be1-53ad-4cfe-86cb-636efbf0683f
-  _towerEntityData:
-    _itemName: Wizard Tower
-    _damage: 5
-    _range: 2
-    _attackInterval: 4
-    _detectionDirections: 1
+  m_Script: {fileID: 11500000, guid: 6114e0c0044e4e74dbbd7872cc780a07, type: 3}
+  m_Name: Magic Ball Projectile
+  m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Entity_Configs.Projectile_Configs.ProjectileEntityConfig
+  _configID: d61186d6-37b6-4af8-aa0a-99058643b3c1
+  _projectileEntityData:
     _projectileName: Magic Ball
+    _speed: 1
   _entityVisualData:
     _assetReference:
-      m_AssetGUID: c36496bb84474f744950deca616bc666
+      m_AssetGUID: f7f8f56de3faf314d9f8254c17ba0ed5
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
