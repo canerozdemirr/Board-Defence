@@ -72,17 +72,21 @@ namespace Systems
                 int randomWaveIndex = UnityEngine.Random.Range(0, _waveDataList.Count);
                 _currentWaveData = _waveDataList[randomWaveIndex];
                 EnemyClass enemyClass = _currentWaveData.EnemySpawnData.EnemyData;
-                
+
                 IBlockEntity spawnedEnemy = await _enemySpawner.ProvideEnemyEntity(enemyClass);
-                Vector2Int spawnBoardIndex = new(UnityEngine.Random.Range(0, _boardSystem.BoardSizeData.RowNumber), UnityEngine.Random.Range(_enemyMinSpawnColumnNumber, _boardSystem.BoardSizeData.ColumnNumber));
+
+                Vector2Int spawnBoardIndex = GetValidSpawnPosition();
                 spawnedEnemy.SetBoardIndex(spawnBoardIndex);
-                
+
                 Vector3 spawnWorldPosition = _boardSystem.BoardSizeData.CalculateCenteredCellPosition(spawnBoardIndex.x, spawnBoardIndex.y);
                 Vector3 finalPosition = new(spawnWorldPosition.x, spawnWorldPosition.y + spawnedEnemy.WorldTransform.localScale.y, spawnWorldPosition.z);
                 spawnedEnemy.SetWorldPosition(finalPosition);
-                
+
                 spawnedEnemy.Initialize();
                 spawnedEnemy.OnActivate();
+
+                _boardSystem.OccupyBlock(spawnBoardIndex);
+                _boardSystem.AddEntityAtBlock(spawnBoardIndex, spawnedEnemy);
 
                 if (!_enemySpawnedCountMap.TryAdd(enemyClass, 1))
                 {
@@ -93,12 +97,30 @@ namespace Systems
                 {
                     _waveDataList.RemoveAt(randomWaveIndex);
                 }
-                
+
                 _currentEnemyCount--;
                 await UniTask.Delay(TimeSpan.FromSeconds(_spawnIntervalBetweenEnemies), cancellationToken: _cancellationTokenSource.Token);
             }
             
             EnemyWaveCompleted?.Invoke();
+        }
+
+        private Vector2Int GetValidSpawnPosition()
+        {
+            Vector2Int spawnBoardIndex;
+            int maxAttempts = 100;
+            int attempts = 0;
+
+            do
+            {
+                int row = UnityEngine.Random.Range(0, _boardSystem.BoardSizeData.RowNumber);
+                int column = UnityEngine.Random.Range(_enemyMinSpawnColumnNumber, _boardSystem.BoardSizeData.ColumnNumber);
+                spawnBoardIndex = new Vector2Int(row, column);
+                attempts++;
+            }
+            while (_boardSystem.IsBlockOccupied(spawnBoardIndex) && attempts < maxAttempts);
+
+            return spawnBoardIndex;
         }
 
         private void OnWaveCompleted()
