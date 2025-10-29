@@ -46,9 +46,10 @@ namespace States.Tower_States
 
         public override void OnUpdate(ITowerEntity context)
         {
-            if (_targetEnemy == null)
+            if (_targetEnemy == null || !_targetEnemy.IsAlive)
             {
                 //This is for enemy death case
+                _targetEnemy = null;
                 FinishState();
                 return;
             }

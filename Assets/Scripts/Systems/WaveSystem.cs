@@ -47,6 +47,8 @@ namespace Systems
 
         public void RegisterWaveData(List<WaveData> waveDataList, float spawnIntervalBetweenEnemies, float spawnWaitTimeBeforeWave)
         {
+            _waveDataList.Clear();
+            _enemySpawnedCountMap.Clear();
             _waveDataList.AddRange(waveDataList);
             _spawnIntervalBetweenEnemies = spawnIntervalBetweenEnemies;
             _spawnWaitTimeBeforeWave = spawnWaitTimeBeforeWave;
@@ -55,6 +57,7 @@ namespace Systems
 
         public void StartNextWave()
         {
+            _currentEnemyCount = 0;
             foreach (WaveData waveData in _waveDataList)
             {
                 _currentEnemyCount += waveData.EnemySpawnData.Count;
@@ -67,9 +70,12 @@ namespace Systems
         {
             await UniTask.Delay(TimeSpan.FromSeconds(_spawnWaitTimeBeforeWave), cancellationToken: _cancellationTokenSource.Token);
             EnemyWaveStarted?.Invoke(_currentEnemyCount);
-            
+
             while (_currentEnemyCount > 0 && _waveDataList.Count > 0)
             {
+                if (_cancellationTokenSource.Token.IsCancellationRequested)
+                    return;
+
                 int randomWaveIndex = UnityEngine.Random.Range(0, _waveDataList.Count);
                 _currentWaveData = _waveDataList[randomWaveIndex];
                 EnemyClass enemyClass = _currentWaveData.EnemySpawnData.EnemyData;
@@ -102,8 +108,13 @@ namespace Systems
                 _currentEnemyCount--;
                 await UniTask.Delay(TimeSpan.FromSeconds(_spawnIntervalBetweenEnemies), cancellationToken: _cancellationTokenSource.Token);
             }
-            
+
             EnemyWaveCompleted?.Invoke();
+        }
+
+        public void StopWave()
+        {
+            _cancellationTokenSource?.Cancel();
         }
 
         private Vector2Int GetValidSpawnPosition()

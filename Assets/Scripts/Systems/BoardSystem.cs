@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Datas.BoardDatas;
 using Datas.Configs.Board_Configs;
 using Events.Board;
+using Events.Enemies;
 using Gameplay.Interfaces;
 using Systems.Interfaces;
 using UnityEngine;
@@ -30,8 +31,9 @@ namespace Systems
         {
             _blockToEntityMap = new Dictionary<Vector2Int, List<IBlockEntity>>();
             PrepareBoardData();
+            EventBus.Subscribe<EnemyDeath>(OnEnemyDeath);
         }
-
+        
         private void PrepareBoardData()
         {
             _boardSizeData = _boardPreparationConfig.BoardSizeData;
@@ -115,9 +117,17 @@ namespace Systems
         {
             return _blockToEntityMap.GetValueOrDefault(blockIndex);
         }
+        
+        private void OnEnemyDeath(EnemyDeath enemyDeathEvent)
+        {
+            Vector2Int enemyBlockIndex = enemyDeathEvent.EnemyEntity.BoardIndex;
+            FreeBlock(enemyBlockIndex);
+            RemoveEntityAtBlock(enemyBlockIndex, enemyDeathEvent.EnemyEntity);
+        }
 
         public void Dispose()
         {
+            EventBus.Unsubscribe<EnemyDeath>(OnEnemyDeath);
             _boardBlockDataList = null;
             _boardSizeData = default;
             _blockToEntityMap.Clear();

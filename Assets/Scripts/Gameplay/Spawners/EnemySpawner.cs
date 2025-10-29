@@ -80,16 +80,34 @@ namespace Gameplay.Spawners
         private void OnEnemyDeath(EnemyDeath enemyDeathEvent)
         {
             EnemyEntity deadEnemy = enemyDeathEvent.EnemyEntity as EnemyEntity;
-            
+
             if(deadEnemy == null)
                 return;
-            
+
             if (!_enemyEntityList.Contains(deadEnemy))
                 return;
 
-            EnemyClass enemyClass = deadEnemy.EnemyEntityData.EnemyClass;
-            _enemyEntityList.Remove(deadEnemy);
-            _enemyEntityPoolMap[enemyClass].DeSpawn(deadEnemy);
+            ReturnEnemyToPool(deadEnemy);
+        }
+
+        private void ReturnEnemyToPool(EnemyEntity enemy)
+        {
+            if (!_enemyEntityList.Contains(enemy))
+                return;
+
+            EnemyClass enemyClass = enemy.EnemyEntityData.EnemyClass;
+            _enemyEntityList.Remove(enemy);
+            enemy.OnDeactivate();
+            _enemyEntityPoolMap[enemyClass].DeSpawn(enemy);
+        }
+
+        public void ReturnAllEnemiesToPool()
+        {
+            for (int i = _enemyEntityList.Count - 1; i >= 0; i--)
+            {
+                EnemyEntity enemy = _enemyEntityList[i];
+                ReturnEnemyToPool(enemy);
+            }
         }
 
         private void OnDestroy()

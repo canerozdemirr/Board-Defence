@@ -7,5 +7,6 @@ namespace Gameplay.Interfaces
     public interface IEnemySpawner
     {
         UniTask<EnemyEntity> ProvideEnemyEntity(EnemyClass enemyClass);
+        void ReturnAllEnemiesToPool();
     }
 }

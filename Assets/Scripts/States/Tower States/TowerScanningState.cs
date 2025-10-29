@@ -77,7 +77,7 @@ namespace States.Tower_States
 
                 foreach (IBlockEntity entity in _blockEntityList)
                 {
-                    if (entity is IEnemyEntity enemyEntity)
+                    if (entity is IEnemyEntity enemyEntity && enemyEntity.IsAlive)
                     {
                         return enemyEntity;
                     }

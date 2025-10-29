@@ -21,6 +21,7 @@ namespace Systems
         private readonly IInventorySystem _inventorySystem;
         private readonly ITowerSpawner _towerSpawner;
         private readonly IProjectileSpawner _projectileSpawner;
+        private readonly IEnemySpawner _enemySpawner;
         private readonly IUISystem _uiSystem;
 
         private int _currentLevelIndex;
@@ -35,13 +36,14 @@ namespace Systems
         public event Action AllLevelsCompleted;
 
         public LevelSystem(LevelConfig levelConfig, IWaveSystem waveSystem, IInventorySystem inventorySystem,
-            ITowerSpawner towerSpawner, IProjectileSpawner projectileSpawner, IUISystem uiSystem)
+            ITowerSpawner towerSpawner, IProjectileSpawner projectileSpawner, IEnemySpawner enemySpawner, IUISystem uiSystem)
         {
             _levelConfig = levelConfig;
             _waveSystem = waveSystem;
             _inventorySystem = inventorySystem;
             _towerSpawner = towerSpawner;
             _projectileSpawner = projectileSpawner;
+            _enemySpawner = enemySpawner;
             _uiSystem = uiSystem;
         }
 
@@ -108,6 +110,8 @@ namespace Systems
 
         private void CleanupLevel()
         {
+            _waveSystem.StopWave();
+            _enemySpawner.ReturnAllEnemiesToPool();
             _projectileSpawner.ReturnAllProjectilesToPool();
             _towerSpawner.ReturnAllTowersToPool();
         }

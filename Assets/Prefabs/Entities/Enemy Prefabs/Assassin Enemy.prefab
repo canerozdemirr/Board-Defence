@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 289000086958136995, guid: 523eb2d9ed26d6a49b69a40f0855a857, type: 3}
+      propertyPath: _animationList.Array.data[2]._endValue.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2948189660999148316, guid: 523eb2d9ed26d6a49b69a40f0855a857, type: 3}
       propertyPath: m_Name
       value: Assassin Enemy
