@@ -11,9 +11,9 @@ namespace Gameplay.Board
 {
     public class BoardSpawner : MonoBehaviour, IInitializable
     {
-        private BoardCellEntity _cellEntityPrefab;
+        private BoardBlockEntity _blockEntityPrefab;
 
-        private GameObjectPool<BoardCellEntity> _boardCellPool;
+        private GameObjectPool<BoardBlockEntity> _boardCellPool;
 
         private BoardSizeData _boardSizeData;
 
@@ -25,7 +25,7 @@ namespace Gameplay.Board
         private void OnBoardDataReady(BoardDataReady boardDataReadyEvent)
         {
             _boardSizeData = boardDataReadyEvent.BoardSizeData;
-            _boardCellPool = GameObjectPool<BoardCellEntity>.Create(_cellEntityPrefab.gameObject, transform, _boardSizeData.RowNumber * _boardSizeData.ColumnNumber);
+            _boardCellPool = GameObjectPool<BoardBlockEntity>.Create(_blockEntityPrefab.gameObject, transform, _boardSizeData.RowNumber * _boardSizeData.ColumnNumber);
             
             for (int row = 0; row < _boardSizeData.RowNumber; row++)
             {
@@ -43,15 +43,15 @@ namespace Gameplay.Board
             }
         }
 
-        public void InjectDependencies(BoardCellEntity cellEntityPrefab)
+        public void InjectDependencies(BoardBlockEntity blockEntityPrefab)
         {
-            _cellEntityPrefab = cellEntityPrefab;
+            _blockEntityPrefab = blockEntityPrefab;
         }
 
         private void OnDestroy()
         {
             EventBus.Unsubscribe<BoardDataReady>(OnBoardDataReady);
-            _cellEntityPrefab = null;
+            _blockEntityPrefab = null;
             _boardCellPool.ClearObjectReferences();
             _boardCellPool = null;
         }

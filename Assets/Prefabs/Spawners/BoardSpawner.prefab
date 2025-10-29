@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4973397386218321313}
-  - component: {fileID: 567262722489980265}
-  - component: {fileID: 2131810027952464746}
   - component: {fileID: 8536729117618433045}
+  - component: {fileID: 3394485246008639369}
+  - component: {fileID: 713929705325099182}
+  - component: {fileID: 432013597999775366}
+  - component: {fileID: 567262722489980265}
   m_Layer: 0
   m_Name: BoardSpawner
   m_TagString: Untagged
@@ -34,32 +36,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &567262722489980265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7804157225787721422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0404ef3a4fd64c818ef51d2d0dd802a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Board.BoardSpawner
---- !u!114 &2131810027952464746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7804157225787721422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc028b1ed08a68d49a9e2a4a56cad381, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Installers.BoardInstallers.BoardInstaller
-  _boardSpawner: {fileID: 567262722489980265}
-  _cellEntityPrefab: {fileID: 5135352182872391907, guid: dc86151a8cdf9e84db0a897b23e5f797, type: 3}
 --- !u!114 &8536729117618433045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,8 +50,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: Zenject::Zenject.GameObjectContext
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 2131810027952464746}
+  - {fileID: 3394485246008639369}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _autoRun: 1
   _kernel: {fileID: 0}
+--- !u!114 &3394485246008639369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804157225787721422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a936410d056f4b00b2336d777483b2a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Installers.BoardObjectSpawnInstaller
+  _enemyEntityLibrary: {fileID: 11400000, guid: 88aef744bad1a82468061248416dfe99, type: 2}
+  _enemySpawner: {fileID: 713929705325099182}
+  _towerSpawner: {fileID: 432013597999775366}
+  _towerEntityLibrary: {fileID: 11400000, guid: 38da588a51da52540b1205b1dfc6fada, type: 2}
+  _boardSpawner: {fileID: 567262722489980265}
+  _blockEntityPrefab: {fileID: 5135352182872391907, guid: dc86151a8cdf9e84db0a897b23e5f797, type: 3}
+--- !u!114 &713929705325099182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804157225787721422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be998c14a0ad4355a8d0253f3163efa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Spawners.EnemySpawner
+--- !u!114 &432013597999775366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804157225787721422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db4b402751b976445abbf8e74f49928c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Spawners.TowerSpawner
+--- !u!114 &567262722489980265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804157225787721422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0404ef3a4fd64c818ef51d2d0dd802a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Board.BoardSpawner

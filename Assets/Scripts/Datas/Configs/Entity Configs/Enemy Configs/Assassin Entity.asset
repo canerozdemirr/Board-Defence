@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Entity_Configs.Enemy_Configs.EnemyEntityConfig
   _configID: da2163b6-5571-4b9c-81ba-93a2f98438f1
   _enemyEntityData:
+    _enemyID: 
     _enemyName: Assassin
     _health: 3
     _blockPassPerSecond: 1

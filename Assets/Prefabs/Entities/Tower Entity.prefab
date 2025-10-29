@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 7552988638107832816}
   - component: {fileID: 4617943421407959827}
   m_Layer: 0
-  m_Name: Defence Item Prefab
+  m_Name: Tower Entity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

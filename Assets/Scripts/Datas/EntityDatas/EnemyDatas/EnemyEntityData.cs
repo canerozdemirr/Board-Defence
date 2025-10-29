@@ -7,7 +7,7 @@ namespace Datas.EntityDatas.EnemyDatas
     [Serializable]
     public struct EnemyEntityData
     {
-        [SerializeField] private string _enemyID;
+        private string _enemyID;
 
         [SerializeField] private string _enemyName;
 
