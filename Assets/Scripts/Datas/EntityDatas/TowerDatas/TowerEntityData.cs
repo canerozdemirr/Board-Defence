@@ -56,6 +56,6 @@ namespace Datas.EntityDatas.TowerDatas
         ForwardRight = Forward | Right,
         BackwardLeft = Backward | Left,
         BackwardRight = Backward | Right,
-        AllDirections = Forward | Backward | Left | Right
+        AllDirections = Forward | Backward | Left | Right | ForwardLeft | ForwardRight | BackwardLeft | BackwardRight
     }
 }

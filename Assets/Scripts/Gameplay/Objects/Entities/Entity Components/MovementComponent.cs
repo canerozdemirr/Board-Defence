@@ -24,7 +24,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
 
         private Vector2Int _currentBlockIndex;
         private Vector2Int _targetBlockIndex;
-        
+
         private Vector3 _targetWorldPosition;
 
         private bool _isMoving;
@@ -86,7 +86,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             float elapsed = 0f;
 
             _boardSystem.RemoveEntityAtBlock(_currentBlockIndex, _enemyEntity);
-            
+
             while (elapsed < duration && !cancellationToken.IsCancellationRequested)
             {
                 elapsed += Time.deltaTime;
@@ -107,8 +107,8 @@ namespace Gameplay.Objects.Entities.Entity_Components
                 _boardSystem.AddEntityAtBlock(_targetBlockIndex, _enemyEntity);
                 _isMoving = false;
                 _moveProgress = 1f;
-                
-                if(_boardSizeData.ColumnNumber - _currentBlockIndex.y == _boardSizeData.ColumnNumber)
+
+                if (_boardSizeData.ColumnNumber - _currentBlockIndex.y == _boardSizeData.ColumnNumber)
                 {
                     ReachToEndBlock?.Invoke();
                 }
@@ -192,7 +192,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
         public void MoveInDirection(Vector2Int direction)
         {
             Vector2Int targetPosition = _currentBlockIndex + direction;
-            if(!CanMoveTo(targetPosition))
+            if (!CanMoveTo(targetPosition))
                 return;
             MoveToBlockPosition(targetPosition);
         }
