@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7552988638107832816}
   - component: {fileID: 4617943421407959827}
+  - component: {fileID: 6615953466758182400}
   m_Layer: 0
   m_Name: Tower Entity
   m_TagString: Untagged
@@ -76,3 +77,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45102847b0fa4ad9b066155c9ecf5f31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Objects.Items.DefenceItem
+  _entityComponentList:
+  - {fileID: 6615953466758182400}
+--- !u!114 &6615953466758182400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399501565299260965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c25e3b722ffa594e9dd2859f60e6f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Objects.Entities.Entity_Components.AnimateEntityComponent
+  _animationList:
+  - _animationKey: Placement
+    _transformType: 0
+    _startValue: {x: 0, y: 0, z: 0}
+    _endValue: {x: 1, y: 1, z: 1}
+    _duration: 0.3
+    _ease: 27

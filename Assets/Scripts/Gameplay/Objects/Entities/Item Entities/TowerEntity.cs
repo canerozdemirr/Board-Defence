@@ -1,6 +1,7 @@
 using Datas.EntityDatas.TowerDatas;
 using Events.Wave;
 using Gameplay.Interfaces;
+using PrimeTween;
 using States;
 using States.Tower_States;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Gameplay.Objects.Entities.Item_Entities
 
         private TowerEntityData _towerEntityData;
         private StateMachine<ITowerEntity> _stateMachine;
+        private IAnimateComponent _animateComponent;
 
         private TowerScanningState _scanningState;
         private TowerAttackingState _attackingState;
@@ -24,6 +26,11 @@ namespace Gameplay.Objects.Entities.Item_Entities
         public override void Initialize()
         {
             base.Initialize();
+            foreach (IEntityComponent component in _entityComponentList)
+            {
+                component.Initialize(this);
+            }
+            _animateComponent = RequestEntityComponent<IAnimateComponent>();
             SetupStateMachine();
         }
 
@@ -49,6 +56,7 @@ namespace Gameplay.Objects.Entities.Item_Entities
         public override void OnActivate()
         {
             base.OnActivate();
+            _animateComponent.PlayAnimation(Constants.TowerPlacementAnimationTag);
             EventBus.Subscribe<StartWaveRequested>(OnWaveStarted);
         }
 
