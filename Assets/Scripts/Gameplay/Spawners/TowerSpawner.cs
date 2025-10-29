@@ -33,7 +33,7 @@ namespace Gameplay.Spawners
         public async UniTask<TowerEntity> ProvideTowerEntity(string towerName)
         {
             TowerEntity spawnedTower;
-            TowerEntityData towerEntityData = default;
+            TowerEntityData towerEntityData;
 
             if (_towerEntityPoolMap.ContainsKey(towerName))
             {

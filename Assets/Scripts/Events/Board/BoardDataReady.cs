@@ -6,9 +6,9 @@ namespace Events.Board
     public struct BoardDataReady : IEvent
     {
         public readonly BoardSizeData BoardSizeData;
-        public readonly BoardCellData[,] BoardCellDataList;
+        public readonly BoardBlockData[,] BoardCellDataList;
         
-        public BoardDataReady(BoardSizeData boardSizeData, BoardCellData[,] boardCellDataList)
+        public BoardDataReady(BoardSizeData boardSizeData, BoardBlockData[,] boardCellDataList)
         {
             BoardSizeData = boardSizeData;
             BoardCellDataList = boardCellDataList;

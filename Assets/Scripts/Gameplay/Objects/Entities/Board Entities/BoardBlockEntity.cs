@@ -1,6 +1,6 @@
 namespace Gameplay.Objects.Entities.Board_Entities
 {
-    public class BoardBlockEntity : BaseGridEntity
+    public class BoardBlockEntity : BaseBlockEntity
     {
         public override void Initialize()
         {

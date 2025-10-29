@@ -2,8 +2,10 @@ using System;
 using System.Linq;
 using Datas;
 using Datas.Configs.Level_Configs;
+using Events.Wave;
 using Systems.Interfaces;
 using UnityEngine;
+using Utilities;
 using Zenject;
 
 namespace Systems
@@ -41,8 +43,13 @@ namespace Systems
             LevelDataLoaded?.Invoke(_currentLevelData);
 
             _waveSystem.EnemyWaveCompleted += OnWaveCompleted;
+            EventBus.Subscribe<StartWaveRequested>(OnStartWaveRequested);
 
             _waveSystem.RegisterWaveData(_currentLevelData.WaveDataList, _currentLevelData.SpawnIntervalBetweenEnemies, _currentLevelData.SpawnWaitTimeBeforeWave);
+        }
+
+        private void OnStartWaveRequested(StartWaveRequested waveEvent)
+        {
             _waveSystem.StartNextWave();
         }
 
@@ -60,6 +67,7 @@ namespace Systems
         public void Dispose()
         {
             _waveSystem.EnemyWaveCompleted -= OnWaveCompleted;
+            EventBus.Unsubscribe<StartWaveRequested>(OnStartWaveRequested);
         }
     }
     

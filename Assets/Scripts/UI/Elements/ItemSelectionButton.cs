@@ -26,7 +26,7 @@ namespace UI.Elements
 
             _button.onClick.AddListener(OnClick);
             _itemNameText.SetText(_itemName);
-            _itemAmountBuilder.Clear();
+            UpdateAmount(amount);
         }
 
         public void UpdateAmount(int amount)

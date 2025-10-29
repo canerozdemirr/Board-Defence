@@ -114,24 +114,24 @@ namespace Gameplay.Objects.Entities.Entity_Components
 
         private Vector3 GridToWorldPosition(Vector2Int gridPosition)
         {
-            float halfWidth = (_boardSizeData.RowNumber - 1) * _boardSizeData.CellSize / 2f;
-            float halfDepth = (_boardSizeData.ColumnNumber - 1) * _boardSizeData.CellSize / 2f;
+            float halfWidth = (_boardSizeData.RowNumber - 1) * _boardSizeData.BlockSize / 2f;
+            float halfDepth = (_boardSizeData.ColumnNumber - 1) * _boardSizeData.BlockSize / 2f;
 
-            float x = gridPosition.x * _boardSizeData.CellSize - halfWidth;
-            float z = gridPosition.y * _boardSizeData.CellSize - halfDepth;
+            float x = gridPosition.x * _boardSizeData.BlockSize - halfWidth;
+            float z = gridPosition.y * _boardSizeData.BlockSize - halfDepth;
 
             return _boardSizeData.BoardCenterPosition + new Vector3(x, transform.position.y, z);
         }
 
         private Vector2Int WorldToGridPosition(Vector3 worldPosition)
         {
-            float halfWidth = (_boardSizeData.RowNumber - 1) * _boardSizeData.CellSize / 2f;
-            float halfDepth = (_boardSizeData.ColumnNumber - 1) * _boardSizeData.CellSize / 2f;
+            float halfWidth = (_boardSizeData.RowNumber - 1) * _boardSizeData.BlockSize / 2f;
+            float halfDepth = (_boardSizeData.ColumnNumber - 1) * _boardSizeData.BlockSize / 2f;
 
             Vector3 localPos = worldPosition - _boardSizeData.BoardCenterPosition;
 
-            int row = Mathf.RoundToInt((localPos.x + halfWidth) / _boardSizeData.CellSize);
-            int col = Mathf.RoundToInt((localPos.z + halfDepth) / _boardSizeData.CellSize);
+            int row = Mathf.RoundToInt((localPos.x + halfWidth) / _boardSizeData.BlockSize);
+            int col = Mathf.RoundToInt((localPos.z + halfDepth) / _boardSizeData.BlockSize);
 
             return new Vector2Int(row, col);
         }

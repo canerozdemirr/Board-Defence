@@ -2,7 +2,7 @@ using Datas.EntityDatas.EnemyDatas;
 
 namespace Gameplay.Interfaces
 {
-    public interface IEnemyEntity : IGridEntity
+    public interface IEnemyEntity : IBlockEntity
     {
         EnemyEntityData EnemyEntityData { get; }
     }

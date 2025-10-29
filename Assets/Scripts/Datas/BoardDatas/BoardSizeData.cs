@@ -1,4 +1,5 @@
 using System;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Datas.BoardDatas
@@ -8,7 +9,7 @@ namespace Datas.BoardDatas
     {
         [SerializeField] [Min(0f)] private int _rowNumber;
         [SerializeField] [Min(0f)] private int _columnNumber;
-        [SerializeField] [Min(1f)] private float _cellSize;
+        [SerializeField] [ReadOnly] [Min(1f)] private float _blockSize;
         [SerializeField] private Vector3 _boardCenterPosition;
         [SerializeField] private float _cellYPosition;
 
@@ -17,7 +18,7 @@ namespace Datas.BoardDatas
         
         public int RowNumber => _rowNumber;
         public int ColumnNumber => _columnNumber;
-        public float CellSize => _cellSize;
+        public float BlockSize => _blockSize;
         public Vector3 BoardCenterPosition => _boardCenterPosition;
         public float CellYPosition => _cellYPosition;
         public int PlayerRowLimit => _playerRowLimit;
@@ -25,11 +26,11 @@ namespace Datas.BoardDatas
         
         public Vector3 CalculateCenteredCellPosition(int row, int col)
         {
-            float halfWidth = (_rowNumber - 1) * _cellSize / 2f;
-            float halfDepth = (_columnNumber - 1) * _cellSize / 2f;
+            float halfWidth = (_rowNumber - 1) * _blockSize / 2f;
+            float halfDepth = (_columnNumber - 1) * _blockSize / 2f;
 
-            float x = row * _cellSize - halfWidth;
-            float z = col * _cellSize - halfDepth;
+            float x = row * _blockSize - halfWidth;
+            float z = col * _blockSize - halfDepth;
 
             return _boardCenterPosition + new Vector3(x, _cellYPosition, z);
         }

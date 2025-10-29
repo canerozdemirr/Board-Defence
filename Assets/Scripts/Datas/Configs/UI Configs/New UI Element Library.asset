@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.UI_Configs.UIElementLibrary
   _uiElementConfigs:
   - _elementName: LevelUIPanel
-    _prefab: {fileID: 4640066213430529333, guid: bf7513fad44b9ff42909aafc03607dcb, type: 3}
-  - _elementName: TowerSelectionPanel
-    _prefab: {fileID: 4640066213430529333, guid: df1d104b0ea0d2747b938c766c834dd3, type: 3}
+    _prefab: {fileID: 4656874133944508650, guid: bf7513fad44b9ff42909aafc03607dcb, type: 3}
+  - _elementName: ItemSelectionPanel
+    _prefab: {fileID: -849247399874310191, guid: df1d104b0ea0d2747b938c766c834dd3, type: 3}

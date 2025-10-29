@@ -12,6 +12,7 @@ namespace Installers
             Container.BindInterfacesTo<BoardSystem>().AsSingle();
             Container.BindInterfacesTo<WaveSystem>().AsSingle();
             Container.BindInterfacesTo<InventorySystem>().AsSingle();
+            Container.BindInterfacesTo<ItemPlacementSystem>().AsSingle();
             Container.BindInterfacesTo<LevelSystem>().AsSingle();
             Container.BindInterfacesTo<UISystem>().AsSingle();
 
@@ -21,7 +22,8 @@ namespace Installers
             Container.BindExecutionOrder<BoardSystem>(3);
             Container.BindExecutionOrder<WaveSystem>(4);
             Container.BindExecutionOrder<InventorySystem>(5);
-            Container.BindExecutionOrder<LevelSystem>(6);
+            Container.BindExecutionOrder<ItemPlacementSystem>(6);
+            Container.BindExecutionOrder<LevelSystem>(7);
         }
     }
 }

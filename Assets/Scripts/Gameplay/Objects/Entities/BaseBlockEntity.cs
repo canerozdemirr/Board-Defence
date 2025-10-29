@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Gameplay.Objects.Entities
 {
-    public abstract class BaseGridEntity : MonoBehaviour, IGridEntity, IPoolable
+    public abstract class BaseBlockEntity : MonoBehaviour, IBlockEntity, IPoolable
     {
         [SerializeField]
         protected BaseEntityComponent[] _entityComponentList;
@@ -15,9 +15,9 @@ namespace Gameplay.Objects.Entities
         public Transform WorldTransform => transform;
         public Vector2Int BoardIndex { get; private set; }
         
-        public void SetBoardIndex(Vector2Int gridPosition)
+        public void SetBoardIndex(Vector2Int blockPosition)
         {
-            BoardIndex = gridPosition;
+            BoardIndex = blockPosition;
         }
         
         public void SetWorldPosition(Vector3 worldPosition)

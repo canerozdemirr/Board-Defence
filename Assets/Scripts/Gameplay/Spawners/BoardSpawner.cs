@@ -1,13 +1,13 @@
 using Datas.BoardDatas;
 using Events.Board;
 using Gameplay.Interfaces;
-using Gameplay.Objects.Entities;
 using Gameplay.Objects.Entities.Board_Entities;
+using Systems.Interfaces;
 using UnityEngine;
 using Utilities;
 using Zenject;
 
-namespace Gameplay.Board
+namespace Gameplay.Spawners
 {
     public class BoardSpawner : MonoBehaviour, IInitializable
     {
@@ -16,6 +16,8 @@ namespace Gameplay.Board
         private GameObjectPool<BoardBlockEntity> _boardCellPool;
 
         private BoardSizeData _boardSizeData;
+
+        [Inject] private IBoardSystem _boardSystem;
 
         public void Initialize()
         {
@@ -31,14 +33,15 @@ namespace Gameplay.Board
             {
                 for (int col = 0; col < _boardSizeData.ColumnNumber; col++)
                 {
-                    IGridEntity boardCellEntity = _boardCellPool.Spawn();
+                    IBlockEntity boardBlockEntity = _boardCellPool.Spawn();
                     Vector2Int boardIndex = new(row, col);
                     Vector3 worldPositionInBoard = _boardSizeData.CalculateCenteredCellPosition(row, col);
                     
-                    boardCellEntity.SetWorldPosition(worldPositionInBoard);
-                    boardCellEntity.SetBoardIndex(boardIndex);
-                    boardCellEntity.Initialize();
-                    boardCellEntity.OnActivate();
+                    boardBlockEntity.SetWorldPosition(worldPositionInBoard);
+                    boardBlockEntity.SetBoardIndex(boardIndex);
+                    boardBlockEntity.Initialize();
+                    boardBlockEntity.OnActivate();
+                    _boardSystem.AddEntityAtBlock(boardIndex, boardBlockEntity);
                 }
             }
         }

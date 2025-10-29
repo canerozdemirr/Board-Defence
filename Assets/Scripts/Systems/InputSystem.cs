@@ -1,5 +1,7 @@
 using System;
 using Events;
+using Gameplay.Interfaces;
+using Gameplay.Objects.Entities;
 using Systems.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,15 +40,25 @@ namespace Systems
             _clickPosition = Mouse.current.position.ReadValue();
             Ray ray = _cameraSystem.GameplayCamera.ScreenPointToRay(_clickPosition);
 
-            if (!(Mathf.Abs(ray.direction.y) > 0.0001f)) 
-                return;
-            
-            float t = -ray.origin.y / ray.direction.y;
-            _screenPosition = ray.origin + ray.direction * t;
-            
-            EventBus.Publish(new MouseClicked(_screenPosition));
-            
-            Debug.Log("Player clicked at world position: " + _screenPosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                _screenPosition = hit.point;
+
+                IBlockEntity blockEntity = hit.collider.GetComponent<IBlockEntity>();
+                if (blockEntity == null) 
+                    return;
+                
+                Vector2Int blockIndex = blockEntity.BoardIndex;
+                EventBus.Publish(new BlockClicked(blockIndex));
+            }
+            else
+            {
+                if (!(Mathf.Abs(ray.direction.y) > 0.0001f))
+                    return;
+
+                float t = -ray.origin.y / ray.direction.y;
+                _screenPosition = ray.origin + ray.direction * t;
+            }
         }
 
         private void OnMouseClickCancelled(InputAction.CallbackContext callbackContext)

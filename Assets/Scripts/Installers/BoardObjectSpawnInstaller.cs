@@ -1,6 +1,5 @@
 using Datas.Configs.Entity_Configs.Enemy_Configs;
 using Datas.Configs.Entity_Configs.Tower_Configs;
-using Gameplay.Board;
 using Gameplay.Objects.Entities.Board_Entities;
 using Gameplay.Spawners;
 using NaughtyAttributes;

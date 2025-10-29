@@ -73,7 +73,7 @@ namespace Systems
                 _currentWaveData = _waveDataList[randomWaveIndex];
                 EnemyClass enemyClass = _currentWaveData.EnemySpawnData.EnemyData;
                 
-                IGridEntity spawnedEnemy = await _enemySpawner.ProvideEnemyEntity(enemyClass);
+                IBlockEntity spawnedEnemy = await _enemySpawner.ProvideEnemyEntity(enemyClass);
                 Vector2Int spawnBoardIndex = new(UnityEngine.Random.Range(0, _boardSystem.BoardSizeData.RowNumber), UnityEngine.Random.Range(_enemyMinSpawnColumnNumber, _boardSystem.BoardSizeData.ColumnNumber));
                 spawnedEnemy.SetBoardIndex(spawnBoardIndex);
                 

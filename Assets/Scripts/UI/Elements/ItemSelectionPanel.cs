@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Datas.WaveDatas;
+using Events.Wave;
 using Systems.Interfaces;
 using UnityEngine;
+using Utilities;
 using Zenject;
 
 namespace UI.Elements
@@ -12,8 +14,10 @@ namespace UI.Elements
         [Header("References")]
         [SerializeField] private Transform _buttonContainer;
         [SerializeField] private ItemSelectionButton _itemSelectionButtonPrefab;
+        [SerializeField] private UnityEngine.UI.Button _startWaveButton;
 
         [Inject] private IInventorySystem _inventorySystem;
+        [Inject] private IItemPlacementSystem _itemPlacementSystem;
 
         private Dictionary<string, ItemSelectionButton> _itemButtonList;
 
@@ -22,6 +26,7 @@ namespace UI.Elements
         protected override void OnInitialize()
         {
             _itemButtonList = new Dictionary<string, ItemSelectionButton>();
+            _startWaveButton.onClick.AddListener(OnStartWaveClicked);
         }
 
         protected override void OnShow()
@@ -32,6 +37,11 @@ namespace UI.Elements
         protected override void OnHide()
         {
             _inventorySystem.InventoryUpdated -= OnInventoryUpdated;
+        }
+
+        private void OnStartWaveClicked()
+        {
+            EventBus.Publish(new StartWaveRequested());
         }
 
         public void SetupButtons(InventoryData inventoryData)
@@ -54,6 +64,7 @@ namespace UI.Elements
         private void OnTowerButtonClicked(string itemName)
         {
             ItemSelected?.Invoke(itemName);
+            _itemPlacementSystem.StartPlacementMode(itemName);
         }
 
         private void OnInventoryUpdated(string itemName, int amount)
@@ -73,6 +84,7 @@ namespace UI.Elements
         protected override void OnCleanup()
         {
             ClearButtons();
+            _startWaveButton.onClick.RemoveListener(OnStartWaveClicked);
         }
     }
 }

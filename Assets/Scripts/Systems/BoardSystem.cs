@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Datas.BoardDatas;
-using Datas.Configs;
 using Datas.Configs.Board_Configs;
 using Events.Board;
+using Gameplay.Interfaces;
 using Systems.Interfaces;
 using UnityEngine;
 using Utilities;
@@ -16,7 +17,8 @@ namespace Systems
         private readonly BoardPreparationConfig _boardPreparationConfig;
 
         private BoardSizeData _boardSizeData;
-        private BoardCellData[,] _boardCellDataList;
+        private BoardBlockData[,] _boardCellDataList;
+        private Dictionary<Vector2Int, List<IBlockEntity>> _blockToEntityMap;
         public BoardSizeData BoardSizeData => _boardSizeData;
 
         public BoardSystem(BoardPreparationConfig boardPreparationConfig)
@@ -26,6 +28,7 @@ namespace Systems
 
         public void Initialize()
         {
+            _blockToEntityMap = new Dictionary<Vector2Int, List<IBlockEntity>>();
             PrepareBoardData();
         }
 
@@ -34,18 +37,21 @@ namespace Systems
             _boardSizeData = _boardPreparationConfig.BoardSizeData;
             int rowNumber = _boardSizeData.RowNumber;
             int columnNumber = _boardSizeData.ColumnNumber;
-            _boardCellDataList = new BoardCellData[rowNumber, columnNumber];
-
-            //TODO: This is temporary. I will add this section to the config later
-            int playerZoneStartRow = rowNumber / 2;
+            _boardCellDataList = new BoardBlockData[rowNumber, columnNumber];
 
             for (int row = 0; row < rowNumber; row++)
             {
-                for (int col = 0; col < columnNumber; col++)
+                for (int column = 0; column < columnNumber; column++)
                 {
-                    CellType cellType = row >= playerZoneStartRow ? CellType.PlayerZone : CellType.EnemyZone;
-                    _boardCellDataList[row, col] =
-                        new BoardCellData(new Vector2Int(row, col), cellType, CellState.Empty);
+                    BlockType blockType = BlockType.EnemyZone;
+                    if (row >= _boardPreparationConfig.BoardSizeData.PlayerRowLimit
+                        && column <= _boardPreparationConfig.BoardSizeData.PlayerColumnLimit)
+                    {
+                        blockType = BlockType.PlayerZone;
+                    }
+                    
+                    _boardCellDataList[row, column] =
+                        new BoardBlockData(new Vector2Int(row, column), blockType, BlockState.Empty);
                 }
             }
 
@@ -53,10 +59,84 @@ namespace Systems
             EventBus.Publish(new BoardDataReady(_boardSizeData, _boardCellDataList));
         }
 
+        public Vector3 GetWorldPositionFromBlock(Vector2Int blockIndex)
+        {
+            return _boardSizeData.CalculateCenteredCellPosition(blockIndex.x, blockIndex.y);
+        }
+
+        public Vector2Int GetBlockIndexFromWorld(Vector3 worldPosition)
+        {
+            float cellSize = _boardSizeData.BlockSize;
+            Vector3 boardCenter = _boardSizeData.BoardCenterPosition;
+
+            int row = Mathf.RoundToInt((worldPosition.z - boardCenter.z) / cellSize + _boardSizeData.RowNumber / 2f);
+            int col = Mathf.RoundToInt((worldPosition.x - boardCenter.x) / cellSize + _boardSizeData.ColumnNumber / 2f);
+
+            return new Vector2Int(row, col);
+        }
+
+        public bool IsBlockOccupied(Vector2Int blockIndex)
+        {
+            return _boardCellDataList[blockIndex.x, blockIndex.y].BlockState == BlockState.Occupied;
+        }
+
+        public void OccupyBlock(Vector2Int blockIndex)
+        {
+            _boardCellDataList[blockIndex.x, blockIndex.y] = new BoardBlockData(
+                blockIndex,
+                _boardCellDataList[blockIndex.x, blockIndex.y].BlockType,
+                BlockState.Occupied
+            );
+        }
+
+        public void FreeBlock(Vector2Int blockIndex)
+        {
+            _boardCellDataList[blockIndex.x, blockIndex.y] = new BoardBlockData(
+                blockIndex,
+                _boardCellDataList[blockIndex.x, blockIndex.y].BlockType,
+                BlockState.Empty
+            );
+        }
+
+        public bool IsValidPlacementPosition(Vector2Int blockIndex)
+        {
+            BoardBlockData blockData = _boardCellDataList[blockIndex.x, blockIndex.y];
+            return blockData is { BlockType: BlockType.PlayerZone, BlockState: BlockState.Empty };
+        }
+
+        public BoardBlockData GetBlockData(Vector2Int blockIndex)
+        {
+            return _boardCellDataList[blockIndex.x, blockIndex.y];
+        }
+
+        public void AddEntityAtBlock(Vector2Int blockIndex, IBlockEntity entity)
+        {
+            if (!_blockToEntityMap.ContainsKey(blockIndex))
+            {
+                _blockToEntityMap[blockIndex] = new List<IBlockEntity>();
+            }
+            _blockToEntityMap[blockIndex].Add(entity);
+        }
+
+        public void RemoveEntityAtBlock(Vector2Int blockIndex, IBlockEntity entity)
+        {
+            if (_blockToEntityMap.ContainsKey(blockIndex))
+            {
+                _blockToEntityMap[blockIndex].Remove(entity);
+            }
+        }
+
+        public List<IBlockEntity> GetEntitiesAtBlock(Vector2Int blockIndex)
+        {
+            return _blockToEntityMap.GetValueOrDefault(blockIndex);
+        }
+
         public void Dispose()
         {
             _boardCellDataList = null;
             _boardSizeData = default;
+            _blockToEntityMap.Clear();
+            _blockToEntityMap = null;
         }
     }
 }

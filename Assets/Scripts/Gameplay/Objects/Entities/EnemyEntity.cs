@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Gameplay.Objects.Entities
 {
-    public class EnemyEntity : BaseGridEntity, IEnemyEntity
+    public class EnemyEntity : BaseBlockEntity, IEnemyEntity
     {
         private EnemyEntityData _enemyEntityData;
         private StateMachine<IEnemyEntity> _stateMachine;
