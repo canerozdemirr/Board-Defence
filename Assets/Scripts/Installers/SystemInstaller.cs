@@ -11,6 +11,7 @@ namespace Installers
             Container.BindInterfacesTo<CameraSystem>().AsSingle();
             Container.BindInterfacesTo<BoardSystem>().AsSingle();
             Container.BindInterfacesTo<WaveSystem>().AsSingle();
+            Container.BindInterfacesTo<InventorySystem>().AsSingle();
             Container.BindInterfacesTo<LevelSystem>().AsSingle();
             Container.BindInterfacesTo<UISystem>().AsSingle();
 
@@ -19,7 +20,8 @@ namespace Installers
             Container.BindExecutionOrder<InputSystem>(2);
             Container.BindExecutionOrder<BoardSystem>(3);
             Container.BindExecutionOrder<WaveSystem>(4);
-            Container.BindExecutionOrder<LevelSystem>(5);
+            Container.BindExecutionOrder<InventorySystem>(5);
+            Container.BindExecutionOrder<LevelSystem>(6);
         }
     }
 }
