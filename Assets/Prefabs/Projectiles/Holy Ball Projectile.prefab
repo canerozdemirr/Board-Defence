@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 349862227894009477, guid: 8255cea2636561d46aeb7029860a6281, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1012476136407311399, guid: 8255cea2636561d46aeb7029860a6281, type: 3}
       propertyPath: m_Name
       value: Holy Ball Projectile
@@ -67,5 +71,40 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9063565709401674609, guid: 8255cea2636561d46aeb7029860a6281, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1890578703995693237}
   m_SourcePrefab: {fileID: 100100000, guid: 8255cea2636561d46aeb7029860a6281, type: 3}
+--- !u!1 &6907361844657884381 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9063565709401674609, guid: 8255cea2636561d46aeb7029860a6281, type: 3}
+  m_PrefabInstance: {fileID: 2455484333447176108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &1890578703995693237
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6907361844657884381}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

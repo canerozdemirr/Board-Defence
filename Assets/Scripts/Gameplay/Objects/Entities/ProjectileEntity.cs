@@ -1,6 +1,8 @@
+using System;
 using Datas.EntityDatas.ProjectileDatas;
 using Gameplay.Interfaces;
 using UnityEngine;
+using Utilities;
 
 namespace Gameplay.Objects.Entities
 {
@@ -70,9 +72,11 @@ namespace Gameplay.Objects.Entities
             Vector3 targetPosition = _targetEnemy.WorldTransform.position;
             Vector3 direction = (targetPosition - transform.position).normalized;
             transform.position += direction * (_speed * Time.deltaTime);
+        }
 
-            float distance = Vector3.Distance(transform.position, targetPosition);
-            if (distance < 0.1f)
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag(Constants.EnemyTag))
             {
                 OnHitTarget();
             }

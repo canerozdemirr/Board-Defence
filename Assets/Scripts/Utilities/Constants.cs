@@ -28,5 +28,11 @@ namespace Utilities
         }
         
         #endregion
+
+        #region Entity Tags
+
+        public static string EnemyTag = "Enemy";
+
+        #endregion
     }
 }
