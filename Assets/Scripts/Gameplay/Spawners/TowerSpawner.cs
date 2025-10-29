@@ -76,12 +76,21 @@ namespace Gameplay.Spawners
         public void ReturnTowerToPool(TowerEntity tower)
         {
             string towerName = tower.TowerEntityData.ItemName;
-            if (!_towerEntityPoolMap.TryGetValue(towerName, out AddressableGameObjectPool<TowerEntity> pool)) 
+            if (!_towerEntityPoolMap.TryGetValue(towerName, out AddressableGameObjectPool<TowerEntity> pool))
                 return;
-            
+
             _activeTowers.Remove(tower);
             tower.OnDeactivate();
             pool.DeSpawn(tower);
+        }
+
+        public void ReturnAllTowersToPool()
+        {
+            for (int i = _activeTowers.Count - 1; i >= 0; i--)
+            {
+                TowerEntity tower = _activeTowers[i];
+                ReturnTowerToPool(tower);
+            }
         }
 
         private void OnDestroy()

@@ -31,12 +31,14 @@ namespace States.Tower_States
 
         public override void OnEnter(ITowerEntity context)
         {
-            _attackTimer = 0f;
             _towerContext = context;
             _towerEntityData = context.TowerEntityData;
             _range = _towerEntityData.Range;
             _detectionDirections = _towerEntityData.DetectionDirections;
             _directionList = DirectionHelper.GetDirectionsFromDetectionFlag(_detectionDirections);
+
+            Attack().Forget();
+            _attackTimer = 0f;
         }
 
         public override void OnUpdate(ITowerEntity context)

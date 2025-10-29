@@ -8,5 +8,6 @@ namespace Gameplay.Interfaces
     {
         UniTask<ProjectileEntity> ProvideProjectileEntity(string projectileName, Vector3 spawnPosition);
         void ReturnProjectileToPool(ProjectileEntity projectile);
+        void ReturnAllProjectilesToPool();
     }
 }

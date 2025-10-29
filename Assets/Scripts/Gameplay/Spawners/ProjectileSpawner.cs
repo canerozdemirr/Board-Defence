@@ -99,6 +99,15 @@ namespace Gameplay.Spawners
             _projectileEntityPoolMap[projectile.ProjectileEntityData.ProjectileName].DeSpawn(projectile);
         }
 
+        public void ReturnAllProjectilesToPool()
+        {
+            for (int i = _activeProjectiles.Count - 1; i >= 0; i--)
+            {
+                ProjectileEntity projectile = _activeProjectiles[i];
+                ReturnProjectileToPool(projectile);
+            }
+        }
+
         private void OnDestroy()
         {
             EventBus.Unsubscribe<ProjectileHit>(OnProjectileHit);

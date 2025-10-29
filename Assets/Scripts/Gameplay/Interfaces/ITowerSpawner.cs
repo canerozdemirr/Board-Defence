@@ -8,5 +8,6 @@ namespace Gameplay.Interfaces
     {
         UniTask<TowerEntity> ProvideTowerEntity(string towerName);
         void ReturnTowerToPool(TowerEntity tower);
+        void ReturnAllTowersToPool();
     }
 }
