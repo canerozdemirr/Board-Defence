@@ -8,9 +8,7 @@ namespace Datas
     public struct WaveData
     {
         [SerializeField] private EnemySpawnData _enemySpawnData;
-        [SerializeField] private InventoryData _inventoryData;
 
         public EnemySpawnData EnemySpawnData => _enemySpawnData;
-        public InventoryData InventoryData => _inventoryData;
     }
 }

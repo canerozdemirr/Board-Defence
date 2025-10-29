@@ -18,53 +18,59 @@ MonoBehaviour:
     - _enemySpawnData:
         _enemyClass: 0
         _count: 3
-      _towerInventoryData:
-        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 1
         _count: 1
-      _towerInventoryData:
-        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 2
         _count: 1
-      _towerInventoryData:
-        _availableTowers: []
+    _inventoryData:
+      _availableEntityList:
+      - _itemName: Archer Tower
+        _itemAmount: 3
+      - _itemName: Wizard Tower
+        _itemAmount: 2
+      - _itemName: Divine Tower
+        _itemAmount: 1
     _spawnIntervalBetweenEnemies: 1
     _spawnWaitTimeBeforeWave: 1
   - _waveDataList:
     - _enemySpawnData:
         _enemyClass: 0
         _count: 3
-      _towerInventoryData:
-        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 1
         _count: 4
-      _towerInventoryData:
-        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 2
         _count: 2
-      _towerInventoryData:
-        _availableTowers: []
+    _inventoryData:
+      _availableEntityList:
+      - _itemName: Archer Tower
+        _itemAmount: 3
+      - _itemName: Wizard Tower
+        _itemAmount: 4
+      - _itemName: Divine Tower
+        _itemAmount: 2
     _spawnIntervalBetweenEnemies: 1
     _spawnWaitTimeBeforeWave: 1
   - _waveDataList:
     - _enemySpawnData:
         _enemyClass: 0
         _count: 5
-      _towerInventoryData:
-        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 1
         _count: 7
-      _towerInventoryData:
-        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 2
         _count: 5
-      _towerInventoryData:
-        _availableTowers: []
+    _inventoryData:
+      _availableEntityList:
+      - _itemName: Archer Tower
+        _itemAmount: 5
+      - _itemName: Wizard Tower
+        _itemAmount: 7
+      - _itemName: Divine Tower
+        _itemAmount: 5
     _spawnIntervalBetweenEnemies: 1
     _spawnWaitTimeBeforeWave: 1

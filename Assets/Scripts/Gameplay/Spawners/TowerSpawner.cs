@@ -4,6 +4,7 @@ using Datas.Configs.Entity_Configs.Tower_Configs;
 using Datas.EntityDatas.TowerDatas;
 using Gameplay.Interfaces;
 using Gameplay.Objects.Entities;
+using Gameplay.Objects.Entities.Item_Entities;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -44,7 +45,7 @@ namespace Gameplay.Spawners
                     towerEntityData = entityConfig.TowerEntityData.Clone();
                     if (towerEntityData.ItemName != towerName)
                         continue;
-                    spawnedTower.AssignTowerData(towerEntityData);
+                    //spawnedTower.AssignTowerData(towerEntityData);
                     break;
                 }
 
@@ -67,20 +68,20 @@ namespace Gameplay.Spawners
             _towerEntityPoolMap.Add(towerName, towerPool);
             spawnedTower = _towerEntityPoolMap[towerName].Spawn();
             _container.InjectGameObject(spawnedTower.gameObject);
-            spawnedTower.AssignTowerData(towerEntityData);
+            //spawnedTower.AssignTowerData(towerEntityData);
             _activeTowers.Add(spawnedTower);
             return spawnedTower;
         }
 
         public void ReturnTowerToPool(TowerEntity tower)
         {
-            string towerName = tower.TowerEntityData.ItemName;
-            if (!_towerEntityPoolMap.TryGetValue(towerName, out AddressableGameObjectPool<TowerEntity> pool)) 
-                return;
-            
-            _activeTowers.Remove(tower);
-            tower.OnDeactivate();
-            pool.DeSpawn(tower);
+            // string towerName = tower.TowerEntityData.ItemName;
+            // if (!_towerEntityPoolMap.TryGetValue(towerName, out AddressableGameObjectPool<TowerEntity> pool)) 
+            //     return;
+            //
+            // _activeTowers.Remove(tower);
+            // tower.OnDeactivate();
+            // pool.DeSpawn(tower);
         }
 
         private void OnDestroy()
@@ -89,6 +90,7 @@ namespace Gameplay.Spawners
             {
                 pool.ClearObjectReferences();
             }
+
             _towerEntityPoolMap.Clear();
             _towerEntityPoolMap = null;
             _towerEntityLibrary = null;
