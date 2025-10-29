@@ -52,6 +52,10 @@ namespace Datas.EntityDatas.TowerDatas
         Backward = 1 << 1,
         Left = 1 << 2,
         Right = 1 << 3,
+        ForwardLeft = Forward | Left,
+        ForwardRight = Forward | Right,
+        BackwardLeft = Backward | Left,
+        BackwardRight = Backward | Right,
         AllDirections = Forward | Backward | Left | Right
     }
 }

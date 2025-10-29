@@ -55,7 +55,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             }
 
             _boardSizeData = _boardSystem.BoardSizeData;
-            _currentBlockIndex = WorldToGridPosition(transform.position);
+            _currentBlockIndex = WorldToBlockPosition(transform.position);
             _targetBlockIndex = _currentBlockIndex;
         }
 
@@ -85,6 +85,8 @@ namespace Gameplay.Objects.Entities.Entity_Components
         {
             float elapsed = 0f;
 
+            _boardSystem.RemoveEntityAtBlock(_currentBlockIndex, _enemyEntity);
+            
             while (elapsed < duration && !cancellationToken.IsCancellationRequested)
             {
                 elapsed += Time.deltaTime;
@@ -102,6 +104,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             {
                 transform.position = _targetWorldPosition;
                 _currentBlockIndex = _targetBlockIndex;
+                _boardSystem.AddEntityAtBlock(_targetBlockIndex, _enemyEntity);
                 _isMoving = false;
                 _moveProgress = 1f;
                 
@@ -112,7 +115,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             }
         }
 
-        private Vector3 GridToWorldPosition(Vector2Int gridPosition)
+        private Vector3 BlockToWorldPosition(Vector2Int gridPosition)
         {
             float halfWidth = (_boardSizeData.RowNumber - 1) * _boardSizeData.BlockSize / 2f;
             float halfDepth = (_boardSizeData.ColumnNumber - 1) * _boardSizeData.BlockSize / 2f;
@@ -123,7 +126,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             return _boardSizeData.BoardCenterPosition + new Vector3(x, transform.position.y, z);
         }
 
-        private Vector2Int WorldToGridPosition(Vector3 worldPosition)
+        private Vector2Int WorldToBlockPosition(Vector3 worldPosition)
         {
             float halfWidth = (_boardSizeData.RowNumber - 1) * _boardSizeData.BlockSize / 2f;
             float halfDepth = (_boardSizeData.ColumnNumber - 1) * _boardSizeData.BlockSize / 2f;
@@ -136,7 +139,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             return new Vector2Int(row, col);
         }
 
-        private void MoveToGridPosition(Vector2Int targetPosition)
+        private void MoveToBlockPosition(Vector2Int targetPosition)
         {
             if (_isMoving)
             {
@@ -144,11 +147,11 @@ namespace Gameplay.Objects.Entities.Entity_Components
             }
 
             _targetBlockIndex = targetPosition;
-            _targetWorldPosition = GridToWorldPosition(targetPosition);
+            _targetWorldPosition = BlockToWorldPosition(targetPosition);
             StartMovement();
         }
 
-        public void StopMovement()
+        private void StopMovement()
         {
             if (!_isMoving) return;
 
@@ -159,10 +162,10 @@ namespace Gameplay.Objects.Entities.Entity_Components
             _isMoving = false;
             _moveProgress = 0f;
 
-            _currentBlockIndex = WorldToGridPosition(transform.position);
+            _currentBlockIndex = WorldToBlockPosition(transform.position);
             _targetBlockIndex = _currentBlockIndex;
 
-            transform.position = GridToWorldPosition(_currentBlockIndex);
+            transform.position = BlockToWorldPosition(_currentBlockIndex);
         }
 
         private void SetSpeed(float blocksPerSecond)
@@ -180,7 +183,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             return Mathf.Abs(to.x - from.x) + Mathf.Abs(to.y - from.y);
         }
 
-        public bool CanMoveTo(Vector2Int targetPosition)
+        private bool CanMoveTo(Vector2Int targetPosition)
         {
             return targetPosition.x >= 0 && targetPosition.x < _boardSizeData.RowNumber &&
                    targetPosition.y >= 0 && targetPosition.y < _boardSizeData.ColumnNumber;
@@ -191,7 +194,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
             Vector2Int targetPosition = _currentBlockIndex + direction;
             if(!CanMoveTo(targetPosition))
                 return;
-            MoveToGridPosition(targetPosition);
+            MoveToBlockPosition(targetPosition);
         }
 
         private void OnDestroy()

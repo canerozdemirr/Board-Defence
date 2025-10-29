@@ -26,7 +26,15 @@ namespace Utilities.Helpers
                 return Backward;
             if (detectionDirection.HasFlag(Direction.Left))
                 return Left;
-            return detectionDirection.HasFlag(Direction.Right) ? Right : None;
+            if (detectionDirection.HasFlag(Direction.Right))
+                return Right;
+            if (detectionDirection.HasFlag(Direction.ForwardLeft))
+                return ForwardLeft;
+            if (detectionDirection.HasFlag(Direction.ForwardRight))
+                return ForwardRight;
+            if (detectionDirection.HasFlag(Direction.BackwardLeft))
+                return BackwardLeft;
+            return detectionDirection.HasFlag(Direction.BackwardRight) ? BackwardRight : None;
         }
         
         public static Vector2Int[] GetDirectionsFromDetectionFlag(Direction detectionDirection)
@@ -41,6 +49,14 @@ namespace Utilities.Helpers
                 directions.Add(Left);
             if (detectionDirection.HasFlag(Direction.Right))
                 directions.Add(Right);
+            if (detectionDirection.HasFlag(Direction.ForwardLeft))
+                directions.Add(ForwardLeft);
+            if (detectionDirection.HasFlag(Direction.ForwardRight))
+                directions.Add(ForwardRight);
+            if (detectionDirection.HasFlag(Direction.BackwardLeft))
+                directions.Add(BackwardLeft);
+            if (detectionDirection.HasFlag(Direction.BackwardRight))
+                directions.Add(BackwardRight);
 
             return directions.ToArray();
         }
