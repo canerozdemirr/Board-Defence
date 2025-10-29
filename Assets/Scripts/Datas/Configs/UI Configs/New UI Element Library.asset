@@ -15,3 +15,5 @@ MonoBehaviour:
   _uiElementConfigs:
   - _elementName: LevelUIPanel
     _prefab: {fileID: 4640066213430529333, guid: bf7513fad44b9ff42909aafc03607dcb, type: 3}
+  - _elementName: TowerSelectionPanel
+    _prefab: {fileID: 4640066213430529333, guid: df1d104b0ea0d2747b938c766c834dd3, type: 3}

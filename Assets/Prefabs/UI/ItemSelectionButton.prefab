@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Elements.TowerSelectionButton
   _button: {fileID: 994194291855868959}
-  _nameText: {fileID: 3805115769989959541}
-  _quantityText: {fileID: 5949095917216890101}
+  _itemNameText: {fileID: 3805115769989959541}
+  _itemAmountText: {fileID: 5949095917216890101}
 --- !u!1 &4510375977614841070
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 4130172233170569335}
   - component: {fileID: 5949095917216890101}
   m_Layer: 5
-  m_Name: AmountText
+  m_Name: ItemAmountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
