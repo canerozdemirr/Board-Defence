@@ -12,13 +12,14 @@ namespace Installers
             Container.BindInterfacesTo<BoardSystem>().AsSingle();
             Container.BindInterfacesTo<WaveSystem>().AsSingle();
             Container.BindInterfacesTo<LevelSystem>().AsSingle();
-            
-            //TODO: We might want to turn this into more of a editor-based order editing for more convenience but for now this will do.
+            Container.BindInterfacesTo<UISystem>().AsSingle();
+
             Container.BindExecutionOrder<CameraSystem>(0);
-            Container.BindExecutionOrder<InputSystem>(1);
-            Container.BindExecutionOrder<BoardSystem>(2);
-            Container.BindExecutionOrder<WaveSystem>(3);
-            Container.BindExecutionOrder<LevelSystem>(4);
+            Container.BindExecutionOrder<UISystem>(1);
+            Container.BindExecutionOrder<InputSystem>(2);
+            Container.BindExecutionOrder<BoardSystem>(3);
+            Container.BindExecutionOrder<WaveSystem>(4);
+            Container.BindExecutionOrder<LevelSystem>(5);
         }
     }
 }

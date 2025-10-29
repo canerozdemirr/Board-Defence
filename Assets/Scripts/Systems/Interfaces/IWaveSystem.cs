@@ -8,6 +8,7 @@ namespace Systems.Interfaces
     {
         void RegisterWaveData(List<WaveData> waveDataList, float spawnIntervalBetweenEnemies, float spawnWaitTimeBeforeWave);
         void StartNextWave();
-        event Action WaveCompleted;
+        event Action EnemyWaveCompleted;
+        event Action <int> EnemyWaveStarted;
     }
 }

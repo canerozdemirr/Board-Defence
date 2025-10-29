@@ -9,13 +9,18 @@ using Zenject;
 namespace Systems
 {
     [Serializable]
-    public class LevelSystem : IInitializable, IDisposable
+    public class LevelSystem : ILevelSystem, IInitializable, IDisposable
     {
         private readonly LevelConfig _levelConfig;
         private readonly IWaveSystem _waveSystem;
 
         private int _currentLevelIndex;
         private LevelData _currentLevelData;
+        private LevelState _levelState;
+        
+        public event Action<int> LevelStarted;
+        public event Action<int> LevelCompleted;
+        public event Action<LevelData> LevelDataLoaded;
 
         public LevelSystem(LevelConfig levelConfig, IWaveSystem waveSystem)
         {
@@ -25,10 +30,12 @@ namespace Systems
 
         public void Initialize()
         {
-            _currentLevelIndex = 0;
+            _currentLevelIndex = 1;
             _currentLevelData = _levelConfig.LevelDataList[_currentLevelIndex];
+            _levelState = LevelState.WaitingTowerPlacement;
+            LevelDataLoaded?.Invoke(_currentLevelData);
             
-            _waveSystem.WaveCompleted += OnWaveCompleted;
+            _waveSystem.EnemyWaveCompleted += OnWaveCompleted;
             
             _waveSystem.RegisterWaveData(_currentLevelData.WaveDataList, _currentLevelData.SpawnIntervalBetweenEnemies, _currentLevelData.SpawnWaitTimeBeforeWave);
             _waveSystem.StartNextWave();
@@ -37,13 +44,26 @@ namespace Systems
 
         private void OnWaveCompleted()
         {
-            Debug.Log("Wave Completed!");
+            LevelCompleted?.Invoke(_currentLevelIndex);
             _currentLevelIndex++;
+        }
+
+        private void StartNewLevel()
+        {
+            LevelStarted?.Invoke(_currentLevelIndex);
         }
 
         public void Dispose()
         {
-            _waveSystem.WaveCompleted -= OnWaveCompleted;
+            _waveSystem.EnemyWaveCompleted -= OnWaveCompleted;
         }
+    }
+    
+    public enum LevelState
+    {
+        WaitingTowerPlacement,
+        BattleInProgress,
+        Succeeded,
+        Failed
     }
 }

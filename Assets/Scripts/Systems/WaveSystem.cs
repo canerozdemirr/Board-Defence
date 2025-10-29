@@ -29,8 +29,9 @@ namespace Systems
         private Dictionary<EnemyClass, int> _enemySpawnedCountMap;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public event Action WaveCompleted;
-        
+        public event Action EnemyWaveCompleted;
+        public event Action<int> EnemyWaveStarted;
+
         private WaveSystem(IBoardSystem boardSystem, IEnemySpawner enemySpawner)
         {
             _boardSystem = boardSystem;
@@ -64,7 +65,8 @@ namespace Systems
         private async UniTask SpawnWaveAsync()
         {
             await UniTask.Delay(TimeSpan.FromSeconds(_spawnWaitTimeBeforeWave), cancellationToken: _cancellationTokenSource.Token);
-
+            EnemyWaveStarted?.Invoke(_currentEnemyCount);
+            
             while (_currentEnemyCount > 0 && _waveDataList.Count > 0)
             {
                 int randomWaveIndex = UnityEngine.Random.Range(0, _waveDataList.Count);
@@ -96,7 +98,7 @@ namespace Systems
                 await UniTask.Delay(TimeSpan.FromSeconds(_spawnIntervalBetweenEnemies), cancellationToken: _cancellationTokenSource.Token);
             }
             
-            WaveCompleted?.Invoke();
+            EnemyWaveCompleted?.Invoke();
         }
 
         private void OnWaveCompleted()

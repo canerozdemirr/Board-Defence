@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad5a0ae5feb6894eb8511466a98efa8, type: 3}
+  m_Name: New UI Element Library
+  m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.UI_Configs.UIElementLibrary
+  _uiElementConfigs:
+  - _elementName: LevelUIPanel
+    _prefab: {fileID: 4640066213430529333, guid: bf7513fad44b9ff42909aafc03607dcb, type: 3}

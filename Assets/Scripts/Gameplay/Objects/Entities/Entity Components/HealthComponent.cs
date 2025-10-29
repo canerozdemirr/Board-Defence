@@ -39,12 +39,7 @@ namespace Gameplay.Objects.Entities.Entity_Components
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag(Constants.TAG_PROJECTILE))
-            {
-                //TODO: Get damage amount from projectile component. Fetch the damage value from Projectile Interface.
-            }
+            
         }
-
-        
     }
 }
