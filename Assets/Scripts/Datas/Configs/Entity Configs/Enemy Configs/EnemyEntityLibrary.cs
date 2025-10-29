@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Datas.Configs.Entity_Configs.Enemy_Configs
 {
     [CreateAssetMenu(fileName = "New Enemy Entity Library", menuName = "Configs/Libraries/Create Enemy Entity Library")]
-    public class EnemyEntityLibrary : ScriptableObject
+    public class EnemyEntityLibrary : BaseDataConfig
     {
         [SerializeField] private EnemyEntityConfig[] _enemyEntityConfigList;
         

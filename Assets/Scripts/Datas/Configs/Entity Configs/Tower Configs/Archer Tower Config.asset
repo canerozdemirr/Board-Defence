@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a485fea5c99440ea8f2df2d0248db1c4, type: 3}
   m_Name: Archer Tower Config
   m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Item_Configs.DefenceItemConfig
+  _configID: bba79020-d835-4910-ae47-7a1f58bbfd04
   _towerEntityData:
     _itemName: Archer Tower
     _damage: 3
     _range: 4
     _attackInterval: 3
     _detectionDirections: 1
-  _towerEntityVisualData:
+  _entityVisualData:
     _assetReference:
       m_AssetGUID: 3a9c62c111c52a341ba3dd6b901d1f5a
       m_SubObjectName: 

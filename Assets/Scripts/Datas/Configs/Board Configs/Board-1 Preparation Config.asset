@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6e3150f184443a9a45d353fa5785ae, type: 3}
   m_Name: Board-1 Preparation Config
   m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.BoardPreparationConfig
+  _configID: 68093ebb-4ad0-4180-8db7-d48f9c2415ab
   _boardSizeData:
     _rowNumber: 4
     _columnNumber: 8

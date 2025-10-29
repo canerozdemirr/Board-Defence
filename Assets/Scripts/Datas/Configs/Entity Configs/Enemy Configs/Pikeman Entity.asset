@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938d0f03eba94f238bf852953fd6a93f, type: 3}
   m_Name: Pikeman Entity
   m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Entity_Configs.Enemy_Configs.EnemyEntityConfig
+  _configID: bd76ee80-5e7a-4de7-acec-4b1f3c6f7769
   _enemyEntityData:
     _enemyName: Pikeman
     _health: 5

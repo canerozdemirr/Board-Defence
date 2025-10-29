@@ -12,40 +12,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2acbcc958ec41ee85d0e496da66c270, type: 3}
   m_Name: Level Config
   m_EditorClassIdentifier: Assembly-CSharp::Datas.Configs.Level_Configs.LevelConfig
+  _configID: 9d9164f9-0f66-4515-a983-1687e6cfe1c8
   _levelDataList:
   - _waveDataList:
     - _enemySpawnData:
         _enemyClass: 0
         _count: 3
+      _towerInventoryData:
+        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 1
         _count: 1
+      _towerInventoryData:
+        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 2
         _count: 1
+      _towerInventoryData:
+        _availableTowers: []
     _spawnIntervalBetweenEnemies: 1
     _spawnWaitTimeBeforeWave: 1
   - _waveDataList:
     - _enemySpawnData:
         _enemyClass: 0
         _count: 3
+      _towerInventoryData:
+        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 1
         _count: 4
+      _towerInventoryData:
+        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 2
         _count: 2
+      _towerInventoryData:
+        _availableTowers: []
     _spawnIntervalBetweenEnemies: 1
     _spawnWaitTimeBeforeWave: 1
   - _waveDataList:
     - _enemySpawnData:
         _enemyClass: 0
         _count: 5
+      _towerInventoryData:
+        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 1
         _count: 7
+      _towerInventoryData:
+        _availableTowers: []
     - _enemySpawnData:
         _enemyClass: 2
         _count: 5
+      _towerInventoryData:
+        _availableTowers: []
     _spawnIntervalBetweenEnemies: 1
     _spawnWaitTimeBeforeWave: 1

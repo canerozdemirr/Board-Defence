@@ -47,6 +47,8 @@ namespace Gameplay.Spawners
                     enemyEntityData = entityConfig.EnemyEntityData.Clone();
                     if (enemyEntityData.EnemyClass != enemyClass)
                         continue;
+                    
+                    enemyEntityData.SetID(entityConfig.ConfigID);
                     spawnedEnemy.AssignEnemyEntityData(enemyEntityData);
                     break;
                 }
