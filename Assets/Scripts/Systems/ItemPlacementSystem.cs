@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using Events;
+using Events.Wave;
 using Gameplay.Interfaces;
 using Gameplay.Objects.Entities.Item_Entities;
 using Systems.Interfaces;
@@ -28,6 +29,12 @@ namespace Systems
         public void Initialize()
         {
             _isInPlacementMode = false;
+            EventBus.Subscribe<StartWaveRequested>(OnWaveStarted);
+        }
+
+        private void OnWaveStarted(StartWaveRequested waveStarted)
+        {
+            CancelPlacementMode();
         }
 
         public void StartPlacementMode(string itemName)
@@ -83,6 +90,7 @@ namespace Systems
 
         public void Dispose()
         {
+            EventBus.Unsubscribe<StartWaveRequested>(OnWaveStarted);
             if (_isInPlacementMode)
             {
                 CancelPlacementMode();

@@ -42,6 +42,7 @@ namespace UI.Elements
         private void OnStartWaveClicked()
         {
             EventBus.Publish(new StartWaveRequested());
+            Hide();
         }
 
         public void SetupButtons(InventoryData inventoryData)
