@@ -9,6 +9,9 @@ namespace Gameplay.Objects.Entities
 {
     public class ProjectileEntity : MonoBehaviour, IEntity, IPoolable
     {
+        [SerializeField]
+        private float _hitDistanceThreshold = 0.3f;
+
         private ProjectileEntityData _projectileEntityData;
         private IEnemyEntity _targetEnemy;
         private float _damage;
@@ -74,16 +77,16 @@ namespace Gameplay.Objects.Entities
         private void MoveTowardsTarget()
         {
             Vector3 targetPosition = _targetEnemy.WorldTransform.position;
-            Vector3 direction = (targetPosition - transform.position).normalized;
-            transform.position += direction * (_speed * Time.deltaTime);
-        }
+            float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.CompareTag(Constants.EnemyTag))
+            if (distanceToTarget <= _hitDistanceThreshold)
             {
                 OnHitTarget();
+                return;
             }
+
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            transform.position += direction * (_speed * Time.deltaTime);
         }
 
         private void OnHitTarget()

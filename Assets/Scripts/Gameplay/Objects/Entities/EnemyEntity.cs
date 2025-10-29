@@ -29,6 +29,7 @@ namespace Gameplay.Objects.Entities
             {
                 component.Initialize(this);
             }
+            _animateComponent = RequestEntityComponent<IAnimateComponent>();
             _healthComponent = RequestEntityComponent<IHealthEntityComponent>();
             _movementEntityComponent = RequestEntityComponent<IMovementEntityComponent>();
             SetupStateMachine();
