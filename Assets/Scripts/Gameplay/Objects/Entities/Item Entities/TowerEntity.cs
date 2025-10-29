@@ -1,6 +1,6 @@
 namespace Gameplay.Objects.Entities.Item_Entities
 {
-    public class TowerGridEntity : BaseGridEntity
+    public class TowerEntity : BaseGridEntity
     {
         public override void Initialize()
         {
