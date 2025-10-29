@@ -61,10 +61,10 @@ namespace Gameplay.Objects.Entities
 
         private void Update()
         {
-            if (_targetEnemy == null)
+            if (_targetEnemy == null && gameObject.activeInHierarchy)
             {
                 // Target is killed by other means before projectile hits, return projectile to pool
-                ReturnToPool();
+                EventBus.Publish(new ProjectileHit(this));
                 return;
             }
 
@@ -89,11 +89,8 @@ namespace Gameplay.Objects.Entities
         private void OnHitTarget()
         {
             _targetEnemy.TakeDamage(_damage);
-            EventBus.Publish(new ProjectileHit(this));
-        }
-
-        private void ReturnToPool()
-        {
+            _targetEnemy = null;
+            _damage = 0f;
             EventBus.Publish(new ProjectileHit(this));
         }
     }

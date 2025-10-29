@@ -60,8 +60,7 @@ namespace Gameplay.Spawners
                 if (towerEntityData.ItemName != towerName)
                     continue;
 
-                towerPool = await AddressableGameObjectPool<TowerEntity>.CreateAsync(
-                    towerEntityConfig.EntityVisualData.AssetReference, transform);
+                towerPool = await AddressableGameObjectPool<TowerEntity>.CreateAsync(towerEntityConfig.EntityVisualData.AssetReference, transform);
                 break;
             }
 
