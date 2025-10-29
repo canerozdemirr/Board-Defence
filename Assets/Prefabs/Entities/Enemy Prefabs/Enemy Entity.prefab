@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6624834185622994747}
   - component: {fileID: 3180838364288146362}
   - component: {fileID: 5153564404980033578}
+  - component: {fileID: 289000086958136995}
   m_Layer: 0
   m_Name: Enemy Entity
   m_TagString: Enemy
@@ -72,6 +73,7 @@ MonoBehaviour:
   _entityComponentList:
   - {fileID: 3180838364288146362}
   - {fileID: 5153564404980033578}
+  - {fileID: 289000086958136995}
 --- !u!114 &3180838364288146362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +98,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbf095118994fcfbaa3987606dc62cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Objects.Entities.Entity_Components.BoardMovementComponent
+--- !u!114 &289000086958136995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2948189660999148316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c25e3b722ffa594e9dd2859f60e6f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Objects.Entities.Entity_Components.AnimateComponent
+  _animationList:
+  - _animationKey: Damage
+    _transformType: 0
+    _startValue: {x: 0.85, y: 0.85, z: 0.85}
+    _endValue: {x: 1, y: 1, z: 1}
+    _duration: 0.2
+    _ease: 24
+  - _animationKey: Death
+    _transformType: 0
+    _startValue: {x: 1, y: 1, z: 1}
+    _endValue: {x: 0, y: 0, z: 0}
+    _duration: 0.3
+    _ease: 26
+  - _animationKey: Placement
+    _transformType: 0
+    _startValue: {x: 0, y: 0, z: 0}
+    _endValue: {x: 1, y: 1, z: 1}
+    _duration: 0.3
+    _ease: 24
 --- !u!1 &4847417627040083295
 GameObject:
   m_ObjectHideFlags: 0

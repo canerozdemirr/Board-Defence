@@ -1,9 +1,11 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Events.Enemies;
 using Events.Interfaces;
 using Gameplay.Interfaces;
 using Unity.VisualScripting;
 using UnityEngine;
+using Utilities;
 using EventBus = Utilities.EventBus;
 
 namespace States.Enemy_States
@@ -11,22 +13,22 @@ namespace States.Enemy_States
     [Serializable]
     public class EnemyDeathState : BaseState<IEnemyEntity>
     {
-        private IHealthEntityComponent _healthEntityComponent;
-        private bool _eventProvoked;
+        private IAnimateComponent _animateComponent;
 
         public override void OnEnter(IEnemyEntity context)
         {
-            _eventProvoked = false;
-            _healthEntityComponent = context.RequestEntityComponent<IHealthEntityComponent>();
+            context.RequestEntityComponent<IHealthEntityComponent>();
+            _animateComponent = context.RequestEntityComponent<IAnimateComponent>();
+            PlayDeathAnimation(context).Forget();
         }
 
-        public override void OnUpdate(IEnemyEntity context)
+        private async UniTask PlayDeathAnimation(IEnemyEntity context)
         {
-            if (_eventProvoked)
-                return;
-            
-            // TODO: Add death animation and effects here before invoking death callback.
-            _eventProvoked = true;
+            if (_animateComponent != null)
+            {
+                await _animateComponent.PlayAnimationAsync(Constants.EnemyDeathAnimationTag);
+            }
+
             EventBus.Publish(new EnemyDeath(context));
         }
     }

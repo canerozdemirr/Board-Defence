@@ -9,5 +9,6 @@ namespace Gameplay.Interfaces
         bool IsMoving { get; }
         void MoveInDirection(Vector2Int direction);
         event Action ReachToEndBlock;
+        void StopMovement();
     }
 }

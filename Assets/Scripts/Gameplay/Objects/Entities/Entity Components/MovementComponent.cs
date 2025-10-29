@@ -151,10 +151,8 @@ namespace Gameplay.Objects.Entities.Entity_Components
             StartMovement();
         }
 
-        private void StopMovement()
+        public void StopMovement()
         {
-            if (!_isMoving) return;
-
             _moveCancellationToken?.Cancel();
             _moveCancellationToken?.Dispose();
             _moveCancellationToken = null;

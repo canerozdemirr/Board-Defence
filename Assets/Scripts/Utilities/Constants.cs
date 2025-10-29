@@ -36,7 +36,11 @@ namespace Utilities
         #endregion
         
         #region Animation Tags
+
         public static readonly string TowerPlacementAnimationTag = "Placement";
+        public static readonly string EnemyDamageAnimationTag = "Damage";
+        public static readonly string EnemyDeathAnimationTag = "Death";
+
         #endregion
     }
 }

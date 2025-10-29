@@ -69,6 +69,12 @@ namespace States.Tower_States
                 Vector2Int blockToCheck = startBlock + direction * i;
                 _blockEntityList = _boardSystem.GetEntitiesAtBlock(blockToCheck);
 
+                if (_blockEntityList == null || _blockEntityList.Count == 0)
+                {
+                    //Its either that level just started or enemies not in view yet. Continue scanning.
+                    return null;
+                }
+
                 foreach (IBlockEntity entity in _blockEntityList)
                 {
                     if (entity is IEnemyEntity enemyEntity)

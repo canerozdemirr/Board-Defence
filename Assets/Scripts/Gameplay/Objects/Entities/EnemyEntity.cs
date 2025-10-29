@@ -3,6 +3,7 @@ using Gameplay.Interfaces;
 using States;
 using States.Enemy_States;
 using UnityEngine;
+using Utilities;
 
 namespace Gameplay.Objects.Entities
 {
@@ -17,6 +18,7 @@ namespace Gameplay.Objects.Entities
         
         private IHealthEntityComponent _healthComponent;
         private IMovementEntityComponent _movementEntityComponent;
+        private IAnimateComponent _animateComponent;
 
         public EnemyEntityData EnemyEntityData => _enemyEntityData;
 
@@ -85,6 +87,7 @@ namespace Gameplay.Objects.Entities
         public void TakeDamage(float damage)
         {
             _healthComponent.TakeDamage(damage);
+            _animateComponent.PlayAnimation(Constants.EnemyDamageAnimationTag);
         }
 
         private void OnEntityDeath()
