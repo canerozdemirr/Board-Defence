@@ -22,14 +22,10 @@ namespace Gameplay.Objects.Entities
 
         public EnemyEntityData EnemyEntityData => _enemyEntityData;
         public bool IsAlive => _healthComponent != null && _healthComponent.CurrentHealthAmount > 0;
-
-        public void OnCalledFromPool()
-        {
-            transform.localScale = Vector3.one;
-        }
-
+        
         public override void Initialize()
         {
+            transform.localScale = Vector3.one;
             base.Initialize();
             foreach (IEntityComponent component in _entityComponentList)
             {
@@ -83,7 +79,6 @@ namespace Gameplay.Objects.Entities
             _healthComponent.EntityDeath -= OnEntityDeath;
             _movementEntityComponent.ReachToEndBlock -= OnReachToEndBlock;
             _stateMachine.Stop();
-            transform.localScale = Vector3.one;
         }
 
         private void Update()

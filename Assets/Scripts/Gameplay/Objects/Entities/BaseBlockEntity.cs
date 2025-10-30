@@ -42,7 +42,7 @@ namespace Gameplay.Objects.Entities
 
         public void OnCalledFromPool()
         {
-            
+            transform.localScale = Vector3.one;
         }
 
         public void OnReturnToPool()

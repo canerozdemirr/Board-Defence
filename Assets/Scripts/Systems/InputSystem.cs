@@ -1,7 +1,6 @@
 using System;
 using Events;
 using Gameplay.Interfaces;
-using Gameplay.Objects.Entities;
 using Systems.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,14 +10,13 @@ using Zenject;
 namespace Systems
 {
     [Serializable]
-    public class InputSystem : IInputSystem, IInitializable, IDisposable
+    public class InputSystem : IInitializable, IDisposable
     {
         private ICameraSystem _cameraSystem;
 
         private GameInput _gameInput;
 
         private Vector2 _clickPosition;
-        private Vector3 _screenPosition;
 
         public InputSystem(ICameraSystem cameraSystem)
         {
@@ -40,25 +38,15 @@ namespace Systems
             _clickPosition = Mouse.current.position.ReadValue();
             Ray ray = _cameraSystem.GameplayCamera.ScreenPointToRay(_clickPosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                _screenPosition = hit.point;
-
-                IBlockEntity blockEntity = hit.collider.GetComponent<IBlockEntity>();
-                if (blockEntity == null) 
-                    return;
+            if (!Physics.Raycast(ray, out RaycastHit hit)) 
+                return;
+            
+            IBlockEntity blockEntity = hit.collider.GetComponent<IBlockEntity>();
+            if (blockEntity == null) 
+                return;
                 
-                Vector2Int blockIndex = blockEntity.BoardIndex;
-                EventBus.Publish(new BlockClicked(blockIndex));
-            }
-            else
-            {
-                if (!(Mathf.Abs(ray.direction.y) > 0.0001f))
-                    return;
-
-                float t = -ray.origin.y / ray.direction.y;
-                _screenPosition = ray.origin + ray.direction * t;
-            }
+            Vector2Int blockIndex = blockEntity.BoardIndex;
+            EventBus.Publish(new BlockClicked(blockIndex));
         }
 
         private void OnMouseClickCancelled(InputAction.CallbackContext callbackContext)

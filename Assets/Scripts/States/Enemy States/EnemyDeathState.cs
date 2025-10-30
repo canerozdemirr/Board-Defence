@@ -30,6 +30,7 @@ namespace States.Enemy_States
             }
 
             EventBus.Publish(new EnemyDeath(context));
+            FinishState();
         }
     }
 }

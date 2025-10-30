@@ -30,7 +30,6 @@ namespace Systems
         private Dictionary<EnemyClass, int> _enemySpawnedCountMap;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public event Action EnemyWaveCompleted;
         public event Action<int> EnemyWaveStarted;
 
         private WaveSystem(IBoardSystem boardSystem, IEnemySpawner enemySpawner)
@@ -108,8 +107,6 @@ namespace Systems
                 _currentEnemyCount--;
                 await UniTask.Delay(TimeSpan.FromSeconds(_spawnIntervalBetweenEnemies), cancellationToken: _cancellationTokenSource.Token);
             }
-
-            EnemyWaveCompleted?.Invoke();
         }
 
         public void StopWave()
